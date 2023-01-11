@@ -2,11 +2,11 @@ const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const mongoose = require("mongoose");
 const fs = require('fs');
 require("dotenv/config");
-const interact = require('./interactions.js');
+const interact = require('./dsInteractions.js');
 const dbCmds = require('./dbCmds.js');
 const startup = require('./startup.js');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers], partials: ['MESSAGE', 'CHANNEL', 'REACTION']});
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers], partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 
 client.commands = new Collection();
 client.buttons = new Collection();
@@ -36,8 +36,8 @@ client.once('ready', async () => {
 		const cmdID = cmdIDs.next().value;
 		const cmdName = await allCommands.get(cmdID).name;
 		let permission = client.commands[cmdName].permission;
-		if(permission != undefined) { // If no permissions are given, don't update any permissions
-			if(permission.length == undefined) { // If the permission isn't already an array (more than 1 permission), turn it into an array as that is what the function requires
+		if (permission != undefined) { // If no permissions are given, don't update any permissions
+			if (permission.length == undefined) { // If the permission isn't already an array (more than 1 permission), turn it into an array as that is what the function requires
 				permission = [permission];
 			}
 			client.guilds.cache.get('1054993123626979379').commands.permissions.set({ command: cmdID, permissions: permission })
@@ -52,6 +52,6 @@ client.once('ready', async () => {
 		console.log(`[app-cid.js] Connected to guild ID ${entry}.`); // Log the guild Key (guild.id)
 	}
 	console.log('[app-cid.js] Client is ready.');
-	
+
 	startup.startUp(client);
 });
