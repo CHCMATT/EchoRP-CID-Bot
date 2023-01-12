@@ -34,12 +34,12 @@ module.exports.startUp = async (client) => {
 		.setColor('#F0D8B6');
 
 	const moneySeizedEmbed = new EmbedBuilder()
-		.setTitle('Amount of Money Seized:')
+		.setTitle('Amount of Money seized:')
 		.setDescription(countMoneySeized)
 		.setColor('#ABDBC1');
 
 	const gunsSeizedEmbed = new EmbedBuilder()
-		.setTitle('Amount of Guns Seized:')
+		.setTitle('Amount of Guns seized:')
 		.setDescription(countGunsSeized)
 		.setColor('#F0C7EA');
 
