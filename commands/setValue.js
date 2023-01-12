@@ -15,7 +15,7 @@ module.exports = {
 		{
 			name: 'countername',
 			description: 'The name of the counter you are adding to',
-			choices: [{ name: 'Search Warrants', value: 'search' }, { name: 'Subpoenas', value: 'subpoenas' }, { name: 'Money Seized', value: 'money' }],
+			choices: [{ name: 'Search Warrants', value: 'search' }, { name: 'Subpoenas', value: 'subpoenas' }, { name: 'Money Seized', value: 'money' }, { name: 'Guns Seized', value: 'guns' }],
 			type: 3,
 			required: true,
 		},
@@ -29,31 +29,36 @@ module.exports = {
 	async execute(interaction) {
 		if (interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
 
-		const counterName = interaction.options.getString('countername').toLowerCase();
-		const value = interaction.options.getNumber('value');
+			const counterName = interaction.options.getString('countername').toLowerCase();
+			const value = interaction.options.getNumber('value');
 
 			if (counterName === "search") {
-				await dbCmds.setValue("countSearchWarrants",value);
+				await dbCmds.setValue("countSearchWarrants", value);
 				var newValue = await dbCmds.readValue("countSearchWarrants");
 				var fixedName = "Search Warrants";
 			}
 			if (counterName === "subpoenas") {
-				await dbCmds.setValue("countSubpoenas",value);
+				await dbCmds.setValue("countSubpoenas", value);
 				var newValue = await dbCmds.readValue("countSubpoenas");
 				var fixedName = "Subpoenas";
 			}
 			if (counterName === "money") {
-				await dbCmds.setValue("countMoneySeized",value);
+				await dbCmds.setValue("countMoneySeized", value);
 				var newValue = formatter.format(await dbCmds.readValue("countMoneySeized"));
 				var fixedName = "Money Seized";
 			}
+			if (counterName === "guns") {
+				await dbCmds.setValue("countGunsSeized", value);
+				var newValue = await dbCmds.readValue("countGunsSeized");
+				var fixedName = "Guns Seized";
+			}
 			await editEmbed.editEmbed(interaction.client);
-			await interaction.reply({ content: `Successfully set the value for the \`${fixedName}\` counter to \`${newValue}\`.`, ephemeral: true});
+			await interaction.reply({ content: `Successfully set the value for the \`${fixedName}\` counter to \`${newValue}\`.`, ephemeral: true });
 
 			await interaction.client.channels.cache.get('1061406583478833223').send(`:warning: \`${interaction.member.user.username}\` set the value of the \`${fixedName}\` counter to \`${newValue}\`.`)
 		}
 		else {
-			await interaction.reply({ content: `:x: You must have the \`Administrator\` permission to use this function.`, ephemeral: true});
+			await interaction.reply({ content: `:x: You must have the \`Administrator\` permission to use this function.`, ephemeral: true });
 		}
 	},
 };

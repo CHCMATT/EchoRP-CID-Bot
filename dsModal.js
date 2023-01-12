@@ -22,34 +22,55 @@ module.exports.modalSubmit = async (interaction) => {
 		const modalID = interaction.customId;
 		switch (modalID) {
 			case 'moneySeizedModal':
-				const inputVal = Math.abs(Number(interaction.fields.getTextInputValue('moneySeizedInput')));
-				const inputCaseNum = interaction.fields.getTextInputValue('caseNumInput');
-				const inputCaseFileLink = interaction.fields.getTextInputValue('caseFileLinkInput');
-				if (isNaN(inputVal)) { // validate quantity of money
+				const moneySeized = Math.abs(Number(interaction.fields.getTextInputValue('moneySeizedInput')));
+				const moneyCaseNum = interaction.fields.getTextInputValue('moneyCaseNumInput');
+				const moneyCaseFileLink = interaction.fields.getTextInputValue('moneyCaseFileLinkInput');
+				if (isNaN(moneySeized)) { // validate quantity of money
 					await interaction.reply({
 						content: `\`${interaction.fields.getTextInputValue('moneySeizedInput')}\` is not a valid number, please be sure to only enter numbers (no $ or commas).`,
 						ephemeral: true
 					});
-				} else if (isNaN(inputCaseNum)) { // validate case number
+				} else if (isNaN(moneyCaseNum)) { // validate case number
 					await interaction.reply({
-						content: `\`${interaction.fields.getTextInputValue('caseNumInput')}\` is not a valid number, please be sure to only enter numbers (no # or letters).`,
+						content: `\`${interaction.fields.getTextInputValue('moneyCaseNumInput')}\` is not a valid number, please be sure to only enter numbers (no # or letters).`,
 						ephemeral: true
 					});
-				} else if (!isValidUrl(inputCaseFileLink)) { // validate case file link
+				} else if (!isValidUrl(moneyCaseFileLink)) { // validate case file link
 					await interaction.reply({
-						content: `\`${interaction.fields.getTextInputValue('caseFileLinkInput')}\` is not a valid URL, please be sure to enter a URL including the \`http\:\/\/\` or \`https\:\/\/\` portion.`,
+						content: `\`${interaction.fields.getTextInputValue('moneyCaseFileLinkInput')}\` is not a valid URL, please be sure to enter a URL including the \`http\:\/\/\` or \`https\:\/\/\` portion.`,
 						ephemeral: true
 					});
 				} else {
-					await dbCmds.addValue("countMoneySeized", inputVal);
+					await dbCmds.addValue("countMoneySeized", moneySeized);
 					const newTotal = formatter.format(await dbCmds.readValue("countMoneySeized"));
 					editEmbed.editEmbed(interaction.client);
 					await interaction.reply({
-						content: `Successfully added \`${inputVal}\` to the \`Money Seized\` counter - the new total is \`${newTotal}\`.`,
+						content: `Successfully added \`${moneySeized}\` to the \`Money Seized\` counter - the new total is \`${newTotal}\`.`,
 						ephemeral: true
 					});
 					await interaction.client.channels.cache.get('1061406583478833223').send({
-						content: `:white_check_mark: \`${interaction.member.user.username}\` added \`${inputVal}\` to the \`Money Seized\` counter for a new total of \`${newTotal}\`. The associated Report # is \`${inputCaseNum}\` with Case File \`${inputCaseFileLink}\`.`
+						content: `:white_check_mark: \`${interaction.member.user.username}\` added \`${moneySeized}\` to the \`Money Seized\` counter for a new total of \`${newTotal}\`. The associated Report # is \`${moneyCaseNum}\` with Case File \`${moneyCaseFileLink}\`.`
+					})
+				}
+				break;
+			case 'gunsSeizedModal':
+				const gunsSeized = Math.abs(Number(interaction.fields.getTextInputValue('gunsSeizedInput')));
+				const gunsLocation = interaction.fields.getTextInputValue('gunsLocationInput');
+				if (isNaN(gunsSeized)) { // validate quantity of guns
+					await interaction.reply({
+						content: `\`${interaction.fields.getTextInputValue('gunsSeizedInput')}\` is not a valid number, please be sure to only enter numbers (no $ or commas).`,
+						ephemeral: true
+					});
+				} else {
+					await dbCmds.addValue("countGunsSeized", gunsSeized);
+					const newTotal = await dbCmds.readValue("countGunsSeized");
+					editEmbed.editEmbed(interaction.client);
+					await interaction.reply({
+						content: `Successfully added \`${gunsSeized}\` to the \`Guns Seized\` counter - the new total is \`${newTotal}\`.`,
+						ephemeral: true
+					});
+					await interaction.client.channels.cache.get('1061406583478833223').send({
+						content: `:white_check_mark: \`${interaction.member.user.username}\` added \`${gunsSeized}\` to the \`Guns Seized\` counter for a new total of \`${newTotal}\`. The guns were seized from \`${gunsLocation}\`.`
 					})
 				}
 				break;

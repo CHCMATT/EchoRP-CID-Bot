@@ -15,7 +15,7 @@ module.exports = {
 		{
 			name: 'countername',
 			description: 'The name of the counter you are adding to',
-			choices: [{ name: 'Search Warrants', value: 'search' }, { name: 'Subpoenas', value: 'subpoenas' }, { name: 'Money Seized', value: 'money' }],
+			choices: [{ name: 'Search Warrants', value: 'search' }, { name: 'Subpoenas', value: 'subpoenas' }, { name: 'Money Seized', value: 'money' }, { name: 'Guns Seized', value: 'guns' }],
 			type: 3,
 			required: true,
 		},
@@ -39,13 +39,18 @@ module.exports = {
 				var newValue = formatter.format(await dbCmds.readValue("countMoneySeized"));
 				var fixedName = "Money Seized";
 			}
+			if (counterName === "guns") {
+				await dbCmds.addOne("countGunsSeized");
+				var newValue = await dbCmds.readValue("countGunsSeized");
+				var fixedName = "Guns Seized";
+			}
 			await editEmbed.editEmbed(interaction.client);
-			await interaction.reply({ content: `Successfully added \`1\` to the \`${fixedName}\` counter - the new total is \`${newValue}\`.`, ephemeral: true});
+			await interaction.reply({ content: `Successfully added \`1\` to the \`${fixedName}\` counter - the new total is \`${newValue}\`.`, ephemeral: true });
 
 			await interaction.client.channels.cache.get('1061406583478833223').send(`:white_check_mark: \`${interaction.member.user.username}\` added \`1\` to the \`${fixedName}\` counter for a new total of \`${newValue}\`.`)
 		}
 		else {
-			await interaction.reply({ content: `:x: You must have the \`CID\` role or have the \`Administrator\` permission to use this function.`, ephemeral: true});
+			await interaction.reply({ content: `:x: You must have the \`CID\` role or have the \`Administrator\` permission to use this function.`, ephemeral: true });
 		}
 	},
 };

@@ -16,25 +16,32 @@ module.exports.startUp = async (client) => {
 	let countSearchWarrants = await dbCmds.readValue("countSearchWarrants");
 	let countSubpoenas = await dbCmds.readValue("countSubpoenas");
 	let countMoneySeized = formatter.format(await dbCmds.readValue("countMoneySeized"));
+	let countGunsSeized = await dbCmds.readValue("countGunsSeized");
 
 	countSearchWarrants = countSearchWarrants.toString();
 	countSubpoenas = countSubpoenas.toString();
 	countMoneySeized = countMoneySeized.toString();
+	countGunsSeized = countGunsSeized.toString();
 
 	const searchWarrantsEmbed = new EmbedBuilder()
-	.setTitle('Amount of Search Warrants served:')
-	.setDescription(countSearchWarrants)
-	.setColor('#6DBFD1');
+		.setTitle('Amount of Search Warrants served:')
+		.setDescription(countSearchWarrants)
+		.setColor('#B0BBE8');
 
 	const subpoenasEmbed = new EmbedBuilder()
-	.setTitle('Amount of Subpoenas served:')
-	.setDescription(countSubpoenas)
-	.setColor('#FF7D63');
+		.setTitle('Amount of Subpoenas served:')
+		.setDescription(countSubpoenas)
+		.setColor('#F0D8B6');
 
 	const moneySeizedEmbed = new EmbedBuilder()
-	.setTitle('Amount of Money Seized:')
-	.setDescription(countMoneySeized)
-	.setColor('#57C478');
+		.setTitle('Amount of Money Seized:')
+		.setDescription(countMoneySeized)
+		.setColor('#ABDBC1');
+
+	const gunsSeizedEmbed = new EmbedBuilder()
+		.setTitle('Amount of Guns Seized:')
+		.setDescription(countGunsSeized)
+		.setColor('#F0C7EA');
 
 	const oldEmbed = await dbCmds.readMsgId("embedMsg");
 
@@ -47,7 +54,7 @@ module.exports.startUp = async (client) => {
 		console.log(`[startup.js] Unable to delete message - message ID ${oldEmbed} not found.`);
 	}
 
-	client.embedMsg = await client.channels.cache.get('1060775654867619901').send({ embeds: [searchWarrantsEmbed, subpoenasEmbed, moneySeizedEmbed], components: [btns]});
+	client.embedMsg = await client.channels.cache.get('1060775654867619901').send({ embeds: [searchWarrantsEmbed, subpoenasEmbed, moneySeizedEmbed, gunsSeizedEmbed], components: [btns] });
 	await dbCmds.setMsgId("embedMsg", client.embedMsg.id);
 
 	await client.channels.cache.get('1061401888391712859').send(`:bangbang: The bot started up at ${time}.`)
@@ -68,6 +75,11 @@ function additionButtons() {
 		new ButtonBuilder()
 			.setCustomId('addMoney')
 			.setLabel('Add Money Seized')
+			.setStyle(ButtonStyle.Success),
+
+		new ButtonBuilder()
+			.setCustomId('addGuns')
+			.setLabel('Add Guns Seized')
 			.setStyle(ButtonStyle.Success)
 	);
 	return row;
