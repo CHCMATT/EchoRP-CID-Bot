@@ -69,6 +69,20 @@ module.exports.btnPressed = async (interaction) => {
 				addGunsModal.addComponents(gunsSeizedInputRow, gunsLocationInputRow);
 				await interaction.showModal(addGunsModal);
 				break;
+			case 'addDrugs':
+				const addDrugsModal = new ModalBuilder()
+					.setCustomId('drugsSeizedModal')
+					.setTitle('Add a quantity of drugs seized');
+				const drugsSeizedInput = new TextInputBuilder()
+					.setCustomId('drugsSeizedInput')
+					.setLabel("How many drugs did you seize?")
+					.setStyle(TextInputStyle.Short)
+					.setPlaceholder('15')
+					.setRequired(true);
+				const drugsSeizedInputRow = new ActionRowBuilder().addComponents(drugsSeizedInput);
+				addDrugsModal.addComponents(drugsSeizedInputRow);
+				await interaction.showModal(addDrugsModal);
+				break;
 			default:
 				await interaction.reply({ content: `I\'m not familiar with this button press. Please tag @CHCMATT to fix this issue.`, ephemeral: true });
 				console.log(`Error: Unrecognized button press: ${interaction.customId}`);

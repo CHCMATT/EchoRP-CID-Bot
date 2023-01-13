@@ -11,33 +11,33 @@ module.exports.readValue = async (uniqueName) => {
 };
 
 module.exports.addOne = async (uniqueName) => {
-	await cidInfo.findOneAndUpdate( { uniqueName: uniqueName }, { $inc: { value: 1 }})
+	await cidInfo.findOneAndUpdate({ uniqueName: uniqueName }, { $inc: { value: 1 } })
 };
 
 module.exports.addValue = async (uniqueName, addValue) => {
-	await cidInfo.findOneAndUpdate( { uniqueName: uniqueName }, { $inc: { value: addValue }})
+	await cidInfo.findOneAndUpdate({ uniqueName: uniqueName }, { $inc: { value: addValue } })
 };
 
 module.exports.subtractOne = async (uniqueName) => {
-	await cidInfo.findOneAndUpdate( { uniqueName: uniqueName }, { $inc: { value: -1 }})
+	await cidInfo.findOneAndUpdate({ uniqueName: uniqueName }, { $inc: { value: -1 } })
 };
 
 module.exports.subtractValue = async (uniqueName, subtractValue) => {
-	await cidInfo.findOneAndUpdate( { uniqueName: uniqueName }, { $inc: { value: -Math.abs(subtractValue) }})
+	await cidInfo.findOneAndUpdate({ uniqueName: uniqueName }, { $inc: { value: -Math.abs(subtractValue) } })
 };
 
 module.exports.setValue = async (uniqueName, newValue) => {
-	await cidInfo.findOneAndUpdate( { uniqueName: uniqueName }, { value: newValue }, { upsert: true })
+	await cidInfo.findOneAndUpdate({ uniqueName: uniqueName }, { value: newValue }, { upsert: true })
 };
 
 module.exports.resetValue = async (uniqueName) => {
-	await cidInfo.findOneAndUpdate( { uniqueName: uniqueName }, { value: 0 })
+	await cidInfo.findOneAndUpdate({ uniqueName: uniqueName }, { value: 0 }, { upsert: true })
 };
 
 
 
 module.exports.setMsgId = async (uniqueName, newValue) => {
-	await cidInfo.findOneAndUpdate( { uniqueName: uniqueName }, { msgId: newValue }, { upsert: true })
+	await cidInfo.findOneAndUpdate({ uniqueName: uniqueName }, { msgId: newValue }, { upsert: true })
 };
 
 module.exports.readMsgId = async (uniqueName) => {

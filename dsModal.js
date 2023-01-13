@@ -74,6 +74,26 @@ module.exports.modalSubmit = async (interaction) => {
 					})
 				}
 				break;
+			case 'drugsSeizedModal':
+				const drugsSeized = Math.abs(Number(interaction.fields.getTextInputValue('drugsSeizedInput')));
+				if (isNaN(drugsSeized)) { // validate quantity of guns
+					await interaction.reply({
+						content: `\`${interaction.fields.getTextInputValue('drugsSeizedInput')}\` is not a valid number, please be sure to only enter numbers (no $ or commas).`,
+						ephemeral: true
+					});
+				} else {
+					await dbCmds.addValue("countDrugsSeized", drugsSeized);
+					const newTotal = await dbCmds.readValue("countDrugsSeized");
+					editEmbed.editEmbed(interaction.client);
+					await interaction.reply({
+						content: `Successfully added \`${drugsSeized}\` to the \`Drugs Seized\` counter - the new total is \`${newTotal}\`.`,
+						ephemeral: true
+					});
+					await interaction.client.channels.cache.get('1061406583478833223').send({
+						content: `:white_check_mark: \`${interaction.member.user.username}\` added \`${drugsSeized}\` to the \`Drugs Seized\` counter for a new total of \`${newTotal}\`.`
+					})
+				}
+				break;
 			default:
 				await interaction.reply({
 					content: `I\'m not familiar with this modal type. Please tag @CHCMATT to fix this issue.`,
