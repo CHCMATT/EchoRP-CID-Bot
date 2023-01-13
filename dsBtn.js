@@ -11,14 +11,14 @@ module.exports.btnPressed = async (interaction) => {
 				const newSearchWarrantsTotal = await dbCmds.readValue("countSearchWarrants");
 				await editEmbed.editEmbed(interaction.client);
 				await interaction.reply({ content: `Successfully added \`1\` to the \`Search Warrants\` counter - the new total is \`${newSearchWarrantsTotal}\`.`, ephemeral: true });
-				await interaction.client.channels.cache.get('1061406583478833223').send(`:white_check_mark: \`${interaction.member.user.username}\` added \`1\` to the \`Search Warrants\` counter for a new total of \`${newSearchWarrantsTotal}\`.`)
+				await interaction.client.channels.cache.get('1061406583478833223').send(`:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`1\` to the \`Search Warrants\` counter for a new total of \`${newSearchWarrantsTotal}\`.`)
 				break;
 			case 'addSubpoenas':
 				await dbCmds.addOne("countSubpoenas");
 				const newSubpoenasTotal = await dbCmds.readValue("countSubpoenas");
 				await editEmbed.editEmbed(interaction.client);
 				await interaction.reply({ content: `Successfully added \`1\` to the \`Subpoenas\` counter - the new total is \`${newSubpoenasTotal}\`.`, ephemeral: true });
-				await interaction.client.channels.cache.get('1061406583478833223').send(`:white_check_mark: \`${interaction.member.user.username}\` added \`1\` to the \`Subpoenas\` counter for a new total of \`${newSubpoenasTotal}\`.`)
+				await interaction.client.channels.cache.get('1061406583478833223').send(`:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`1\` to the \`Subpoenas\` counter for a new total of \`${newSubpoenasTotal}\`.`)
 				break;
 			case 'addMoney':
 				const addMoneyModal = new ModalBuilder()

@@ -49,7 +49,7 @@ module.exports.modalSubmit = async (interaction) => {
 						ephemeral: true
 					});
 					await interaction.client.channels.cache.get('1061406583478833223').send({
-						content: `:white_check_mark: \`${interaction.member.user.username}\` added \`${moneySeized}\` to the \`Money Seized\` counter for a new total of \`${newTotal}\`. The associated Report # is \`${moneyCaseNum}\` with Case File \`${moneyCaseFileLink}\`.`
+						content: `:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`${moneySeized}\` to the \`Money Seized\` counter for a new total of \`${newTotal}\`. The associated Report # is \`${moneyCaseNum}\` with Case File \`${moneyCaseFileLink}\`.`
 					})
 				}
 				break;
@@ -70,13 +70,13 @@ module.exports.modalSubmit = async (interaction) => {
 						ephemeral: true
 					});
 					await interaction.client.channels.cache.get('1061406583478833223').send({
-						content: `:white_check_mark: \`${interaction.member.user.username}\` added \`${gunsSeized}\` to the \`Guns Seized\` counter for a new total of \`${newTotal}\`. The guns were seized from \`${gunsLocation}\`.`
+						content: `:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`${gunsSeized}\` to the \`Guns Seized\` counter for a new total of \`${newTotal}\`. The guns were seized from \`${gunsLocation}\`.`
 					})
 				}
 				break;
 			case 'drugsSeizedModal':
 				const drugsSeized = Math.abs(Number(interaction.fields.getTextInputValue('drugsSeizedInput')));
-				if (isNaN(drugsSeized)) { // validate quantity of guns
+				if (isNaN(drugsSeized)) { // validate quantity of drugs
 					await interaction.reply({
 						content: `\`${interaction.fields.getTextInputValue('drugsSeizedInput')}\` is not a valid number, please be sure to only enter numbers (no $ or commas).`,
 						ephemeral: true
@@ -90,7 +90,7 @@ module.exports.modalSubmit = async (interaction) => {
 						ephemeral: true
 					});
 					await interaction.client.channels.cache.get('1061406583478833223').send({
-						content: `:white_check_mark: \`${interaction.member.user.username}\` added \`${drugsSeized}\` to the \`Drugs Seized\` counter for a new total of \`${newTotal}\`.`
+						content: `:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`${drugsSeized}\` to the \`Drugs Seized\` counter for a new total of \`${newTotal}\`.`
 					})
 				}
 				break;

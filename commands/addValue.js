@@ -59,7 +59,7 @@ module.exports = {
 			await editEmbed.editEmbed(interaction.client);
 			await interaction.reply({ content: `Successfully added \`${value}\` to the \`${fixedName}\` counter - the new total is \`${newValue}\`.`, ephemeral: true });
 
-			await interaction.client.channels.cache.get('1061406583478833223').send(`:white_check_mark: \`${interaction.member.user.username}\` added \`${value}\` to the \`${fixedName}\` counter for a new total of \`${newValue}\`.`)
+			await interaction.client.channels.cache.get('1061406583478833223').send(`:warning: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`${value}\` to the \`${fixedName}\` counter for a new total of \`${newValue}\`.`)
 		}
 		else {
 			await interaction.reply({ content: `:x: You must have the \`Administrator\` permission to use this function.`, ephemeral: true });
