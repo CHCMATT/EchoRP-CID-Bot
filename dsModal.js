@@ -27,17 +27,17 @@ module.exports.modalSubmit = async (interaction) => {
 				const moneyCaseFileLink = interaction.fields.getTextInputValue('moneyCaseFileLinkInput');
 				if (isNaN(moneySeized)) { // validate quantity of money
 					await interaction.reply({
-						content: `\`${interaction.fields.getTextInputValue('moneySeizedInput')}\` is not a valid number, please be sure to only enter numbers (no $ or commas).`,
+						content: `:exclamation: \`${interaction.fields.getTextInputValue('moneySeizedInput')}\` is not a valid number, please be sure to only enter numbers (no $ or commas).`,
 						ephemeral: true
 					});
 				} else if (isNaN(moneyCaseNum)) { // validate case number
 					await interaction.reply({
-						content: `\`${interaction.fields.getTextInputValue('moneyCaseNumInput')}\` is not a valid number, please be sure to only enter numbers (no # or letters).`,
+						content: `:exclamation: \`${interaction.fields.getTextInputValue('moneyCaseNumInput')}\` is not a valid number, please be sure to only enter numbers (no # or letters).`,
 						ephemeral: true
 					});
 				} else if (!isValidUrl(moneyCaseFileLink)) { // validate case file link
 					await interaction.reply({
-						content: `\`${interaction.fields.getTextInputValue('moneyCaseFileLinkInput')}\` is not a valid URL, please be sure to enter a URL including the \`http\:\/\/\` or \`https\:\/\/\` portion.`,
+						content: `:exclamation: \`${interaction.fields.getTextInputValue('moneyCaseFileLinkInput')}\` is not a valid URL, please be sure to enter a URL including the \`http\:\/\/\` or \`https\:\/\/\` portion.`,
 						ephemeral: true
 					});
 				} else {
@@ -58,7 +58,7 @@ module.exports.modalSubmit = async (interaction) => {
 				const gunsLocation = interaction.fields.getTextInputValue('gunsLocationInput');
 				if (isNaN(gunsSeized)) { // validate quantity of guns
 					await interaction.reply({
-						content: `\`${interaction.fields.getTextInputValue('gunsSeizedInput')}\` is not a valid number, please be sure to only enter numbers (no $ or commas).`,
+						content: `:exclamation: \`${interaction.fields.getTextInputValue('gunsSeizedInput')}\` is not a valid number, please be sure to only enter numbers (no $ or commas).`,
 						ephemeral: true
 					});
 				} else {
@@ -78,7 +78,7 @@ module.exports.modalSubmit = async (interaction) => {
 				const drugsSeized = Math.abs(Number(interaction.fields.getTextInputValue('drugsSeizedInput')));
 				if (isNaN(drugsSeized)) { // validate quantity of drugs
 					await interaction.reply({
-						content: `\`${interaction.fields.getTextInputValue('drugsSeizedInput')}\` is not a valid number, please be sure to only enter numbers (no $ or commas).`,
+						content: `:exclamation: \`${interaction.fields.getTextInputValue('drugsSeizedInput')}\` is not a valid number, please be sure to only enter numbers (no $ or commas).`,
 						ephemeral: true
 					});
 				} else {
