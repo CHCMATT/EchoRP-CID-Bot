@@ -43,13 +43,14 @@ module.exports.modalSubmit = async (interaction) => {
 				} else {
 					await dbCmds.addValue("countMoneySeized", moneySeized);
 					const newTotal = formatter.format(await dbCmds.readValue("countMoneySeized"));
+					const moneySeizedFormatted = formatter.format(moneySeized);
 					editEmbed.editEmbed(interaction.client);
 					await interaction.reply({
-						content: `Successfully added \`${moneySeized}\` to the \`Money Seized\` counter - the new total is \`${newTotal}\`.`,
+						content: `Successfully added \`${moneySeizedFormatted}\` to the \`Money Seized\` counter - the new total is \`${newTotal}\`.`,
 						ephemeral: true
 					});
 					await interaction.client.channels.cache.get('1061406583478833223').send({
-						content: `:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`${moneySeized}\` to the \`Money Seized\` counter for a new total of \`${newTotal}\`. The associated Report # is \`${moneyCaseNum}\` with Case File \`${moneyCaseFileLink}\`.`
+						content: `:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`${moneySeizedFormatted}\` to the \`Money Seized\` counter for a new total of \`${newTotal}\`. The associated Report # is \`${moneyCaseNum}\` with Case File \`${moneyCaseFileLink}\`.`
 					})
 				}
 				break;
