@@ -15,7 +15,7 @@ module.exports = {
 		{
 			name: 'countername',
 			description: 'The name of the counter you are adding to',
-			choices: [{ name: 'Search Warrants', value: 'search' }, { name: 'Subpoenas', value: 'subpoenas' }, { name: 'Money Seized', value: 'money' }, { name: 'Guns Seized', value: 'guns' }, { name: 'Drugs Seized', value: 'drugs' }],
+			choices: [{ name: 'Search Warrants', value: 'search' }, { name: 'Subpoenas', value: 'subpoenas' }, { name: 'Calls Attended', value: 'calls' }, { name: 'Money Seized', value: 'money' }, { name: 'Guns Seized', value: 'guns' }, { name: 'Drugs Seized', value: 'drugs' }],
 			type: 3,
 			required: true,
 		},
@@ -55,6 +55,11 @@ module.exports = {
 				await dbCmds.addValue("countDrugsSeized", value);
 				var newValue = await dbCmds.readValue("countDrugsSeized");
 				var fixedName = "Drugs Seized";
+			}
+			if (counterName === "calls") {
+				await dbCmds.addValue("countCallsAttended", value);
+				var newValue = await dbCmds.readValue("countCallsAttended");
+				var fixedName = "Calls Attended";
 			}
 			await editEmbed.editEmbed(interaction.client);
 			await interaction.reply({ content: `Successfully added \`${value}\` to the \`${fixedName}\` counter - the new total is \`${newValue}\`.`, ephemeral: true });

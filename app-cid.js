@@ -13,19 +13,23 @@ client.buttons = new Collection();
 
 client.login(process.env.TOKEN);
 
+const fileParts = __filename.split(/[\\/]/);
+const fileName = fileParts[fileParts.length - 1];
+
 client.once('ready', async () => {
-	console.log('[app-cid.js] The client is starting up!');
+
+	console.log(`[${fileName}] The client is starting up!`);
 	mongoose.set("strictQuery", false);
 	mongoose.connect(process.env.MONGO_URI, {
 		keepAlive: true
 	});
-	console.log('[app-cid.js] Connected to mongo!');
+	console.log(`[${fileName}] Connected to mongo!`);
 
 	const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js')); // Find all the files in the command folder that end with .js
 	const cmdList = []; // Create an empty array for pushing each command file to
 	for (const file of commandFiles) { // For each file in command files group
 		const command = require(`./commands/${file}`); // Get the information that is in the file
-		console.log(`[app-cid.js] Added ${file}!`); // Log that the command was added
+		console.log(`[${fileName}] Added ${file}!`); // Log that the command was added
 		cmdList.push(command); // push that command to the array
 		client.commands[command.name] = command; // Save the command name and command information to the client
 	}
@@ -46,12 +50,12 @@ client.once('ready', async () => {
 	}
 
 	interact(client); // Fire whenever an interaction is created
-	console.log(`[app-cid.js] Connected to ${client.guilds.cache.size} guild(s).`); // Lists the number of guilds that the client is connected to
+	console.log(`[${fileName}] Connected to ${client.guilds.cache.size} guild(s).`); // Lists the number of guilds that the client is connected to
 	const keys = client.guilds.cache.keys(); // Gets the keys for the map object from the guilds object
 	for (const entry of keys) { // For each guild
-		console.log(`[app-cid.js] Connected to guild ID ${entry}.`); // Log the guild Key (guild.id)
+		console.log(`[${fileName}] Connected to guild ID ${entry}.`); // Log the guild Key (guild.id)
 	}
-	console.log('[app-cid.js] Client is ready.');
+	console.log(`[${fileName}] Client is ready.`);
 
 	startup.startUp(client);
 });

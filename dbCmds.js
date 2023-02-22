@@ -35,7 +35,7 @@ module.exports.resetValue = async (uniqueName) => {
 };
 
 
-
+// for setting message ID of current Discord embed message
 module.exports.setMsgId = async (uniqueName, newValue) => {
 	await cidInfo.findOneAndUpdate({ uniqueName: uniqueName }, { msgId: newValue }, { upsert: true })
 };
