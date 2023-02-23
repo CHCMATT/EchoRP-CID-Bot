@@ -49,7 +49,7 @@ module.exports.modalSubmit = async (interaction) => {
 						content: `Successfully added \`${moneySeizedFormatted}\` to the \`Money Seized\` counter - the new total is \`${newTotal}\`.`,
 						ephemeral: true
 					});
-					await interaction.client.channels.cache.get('1061406583478833223').send({
+					await interaction.client.channels.cache.get(process.env.AUDIT_CHANNEL_ID).send({
 						content: `:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`${moneySeizedFormatted}\` to the \`Money Seized\` counter for a new total of \`${newTotal}\`. The associated Report # is \`${moneyCaseNum}\` with Case File \`${moneyCaseFileLink}\`.`
 					})
 				}
@@ -70,7 +70,7 @@ module.exports.modalSubmit = async (interaction) => {
 						content: `Successfully added \`${gunsSeized}\` to the \`Guns Seized\` counter - the new total is \`${newTotal}\`.`,
 						ephemeral: true
 					});
-					await interaction.client.channels.cache.get('1061406583478833223').send({
+					await interaction.client.channels.cache.get(process.env.AUDIT_CHANNEL_ID).send({
 						content: `:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`${gunsSeized}\` to the \`Guns Seized\` counter for a new total of \`${newTotal}\`. The guns were seized from \`${gunsLocation}\`.`
 					})
 				}
@@ -90,7 +90,7 @@ module.exports.modalSubmit = async (interaction) => {
 						content: `Successfully added \`${drugsSeized}\` to the \`Drugs Seized\` counter - the new total is \`${newTotal}\`.`,
 						ephemeral: true
 					});
-					await interaction.client.channels.cache.get('1061406583478833223').send({
+					await interaction.client.channels.cache.get(process.env.AUDIT_CHANNEL_ID).send({
 						content: `:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`${drugsSeized}\` to the \`Drugs Seized\` counter for a new total of \`${newTotal}\`.`
 					})
 				}

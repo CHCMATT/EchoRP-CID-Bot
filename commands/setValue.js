@@ -65,7 +65,7 @@ module.exports = {
 			await editEmbed.editEmbed(interaction.client);
 			await interaction.reply({ content: `Successfully set the value for the \`${fixedName}\` counter to \`${newValue}\`.`, ephemeral: true });
 
-			await interaction.client.channels.cache.get('1061406583478833223').send(`:warning: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) set the value of the \`${fixedName}\` counter to \`${newValue}\`.`)
+			await interaction.client.channels.cache.get(process.env.AUDIT_CHANNEL_ID).send(`:warning: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) set the value of the \`${fixedName}\` counter to \`${newValue}\`.`)
 		}
 		else {
 			await interaction.reply({ content: `:x: You must have the \`Administrator\` permission to use this function.`, ephemeral: true });

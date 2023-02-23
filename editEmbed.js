@@ -11,17 +11,17 @@ module.exports.editEmbed = async (client) => {
 
 	let countSearchWarrants = await dbCmds.readValue("countSearchWarrants");
 	let countSubpoenas = await dbCmds.readValue("countSubpoenas");
+	let countCallsAttended = await dbCmds.readValue("countCallsAttended");
 	let countMoneySeized = formatter.format(await dbCmds.readValue("countMoneySeized"));
 	let countGunsSeized = await dbCmds.readValue("countGunsSeized");
 	let countDrugsSeized = await dbCmds.readValue("countDrugsSeized");
-	let countCallsAttended = await dbCmds.readValue("countCallsAttended");
 
 	countSearchWarrants = countSearchWarrants.toString();
 	countSubpoenas = countSubpoenas.toString();
+	countCallsAttended = countCallsAttended.toString();
 	countMoneySeized = countMoneySeized.toString();
 	countGunsSeized = countGunsSeized.toString();
 	countDrugsSeized = countDrugsSeized.toString();
-	countCallsAttended = countCallsAttended.toString();
 
 	// Color Palette: https://www.schemecolor.com/rainbow-pastels-color-scheme.php
 
@@ -34,6 +34,11 @@ module.exports.editEmbed = async (client) => {
 		.setTitle('Amount of Subpoenas served:')
 		.setDescription(countSubpoenas)
 		.setColor('#FFB7B2');
+
+	const callsAttendedEmbed = new EmbedBuilder()
+		.setTitle('Amount of Calls Attended:')
+		.setDescription(countCallsAttended)
+		.setColor('#C7CEEA');
 
 	const moneySeizedEmbed = new EmbedBuilder()
 		.setTitle('Amount of Money seized:')
@@ -50,20 +55,15 @@ module.exports.editEmbed = async (client) => {
 		.setDescription(countDrugsSeized)
 		.setColor('#B5EAD7');
 
-	const callsAttendedEmbed = new EmbedBuilder()
-		.setTitle('Amount of Calls Attended:')
-		.setDescription(countCallsAttended)
-		.setColor('#C7CEEA');
-
 	const currEmbed = await dbCmds.readMsgId("embedMsg");
 
-	const channel = await client.channels.fetch('1060775654867619901')
+	const channel = await client.channels.fetch(process.env.EMBED_CHANNEL_ID)
 	const currMsg = await channel.messages.fetch(currEmbed);
 
 	const btnRow1 = addBtnRow1();
 	const btnRow2 = addBtnRow2();
 
-	currMsg.edit({ embeds: [searchWarrantsEmbed, subpoenasEmbed, moneySeizedEmbed, gunsSeizedEmbed, drugsSeizedEmbed, callsAttendedEmbed], components: [btnRow1, btnRow2] });
+	currMsg.edit({ embeds: [searchWarrantsEmbed, subpoenasEmbed, callsAttendedEmbed, moneySeizedEmbed, gunsSeizedEmbed, drugsSeizedEmbed], components: [btnRow1, btnRow2] });
 };
 
 function addBtnRow1() {

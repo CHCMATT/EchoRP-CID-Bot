@@ -14,22 +14,19 @@ module.exports.startUp = async (client) => {
 	const now = Math.floor(new Date().getTime() / 1000.0);
 	const time = `<t:${now}:t>`;
 
-	const btnRow1 = addBtnRow1();
-	const btnRow2 = addBtnRow2();
-
 	let countSearchWarrants = await dbCmds.readValue("countSearchWarrants");
 	let countSubpoenas = await dbCmds.readValue("countSubpoenas");
+	let countCallsAttended = await dbCmds.readValue("countCallsAttended");
 	let countMoneySeized = formatter.format(await dbCmds.readValue("countMoneySeized"));
 	let countGunsSeized = await dbCmds.readValue("countGunsSeized");
 	let countDrugsSeized = await dbCmds.readValue("countDrugsSeized");
-	let countCallsAttended = await dbCmds.readValue("countCallsAttended");
 
 	countSearchWarrants = countSearchWarrants.toString();
 	countSubpoenas = countSubpoenas.toString();
+	countCallsAttended = countCallsAttended.toString();
 	countMoneySeized = countMoneySeized.toString();
 	countGunsSeized = countGunsSeized.toString();
 	countDrugsSeized = countDrugsSeized.toString();
-	countCallsAttended = countCallsAttended.toString();
 
 	const searchWarrantsEmbed = new EmbedBuilder()
 		.setTitle('Amount of Search Warrants served:')
@@ -40,6 +37,11 @@ module.exports.startUp = async (client) => {
 		.setTitle('Amount of Subpoenas served:')
 		.setDescription(countSubpoenas)
 		.setColor('#FFB7B2');
+
+	const callsAttendedEmbed = new EmbedBuilder()
+		.setTitle('Amount of Calls Attended:')
+		.setDescription(countCallsAttended)
+		.setColor('#C7CEEA');
 
 	const moneySeizedEmbed = new EmbedBuilder()
 		.setTitle('Amount of Money seized:')
@@ -56,14 +58,12 @@ module.exports.startUp = async (client) => {
 		.setDescription(countDrugsSeized)
 		.setColor('#B5EAD7');
 
-	const callsAttendedEmbed = new EmbedBuilder()
-		.setTitle('Amount of Calls Attended:')
-		.setDescription(countCallsAttended)
-		.setColor('#C7CEEA');
+	const btnRow1 = addBtnRow1();
+	const btnRow2 = addBtnRow2();
 
 	const oldEmbed = await dbCmds.readMsgId("embedMsg");
+	const channel = await client.channels.fetch(process.env.EMBED_CHANNEL_ID);
 
-	const channel = await client.channels.fetch('1060775654867619901')
 	try {
 		const oldMsg = await channel.messages.fetch(oldEmbed);
 		await oldMsg.delete();
@@ -72,20 +72,11 @@ module.exports.startUp = async (client) => {
 		console.log(`[${fileName}] Unable to delete message - message ID ${oldEmbed} not found.`);
 	}
 
-	client.embedMsg = await client.channels.cache.get('1060775654867619901').send({
-		embeds: [
-			searchWarrantsEmbed,
-			subpoenasEmbed,
-			moneySeizedEmbed,
-			gunsSeizedEmbed,
-			drugsSeizedEmbed,
-			callsAttendedEmbed
-		],
-		components: [btnRow1, btnRow2]
-	});
+	client.embedMsg = await client.channels.cache.get(process.env.EMBED_CHANNEL_ID).send({ embeds: [searchWarrantsEmbed, subpoenasEmbed, callsAttendedEmbed, moneySeizedEmbed, gunsSeizedEmbed, drugsSeizedEmbed], components: [btnRow1, btnRow2] });
+
 	await dbCmds.setMsgId("embedMsg", client.embedMsg.id);
 
-	await client.channels.cache.get('1077657717927321640').send(`:bangbang: The bot started up at ${time}.`)
+	await client.channels.cache.get(process.env.LOG_CHANNEL_ID).send(`:bangbang: The ${process.env.BOT_NAME} bot started up at ${time}.`)
 };
 
 function addBtnRow1() {
