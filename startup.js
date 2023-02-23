@@ -41,22 +41,22 @@ module.exports.startUp = async (client) => {
 	const callsAttendedEmbed = new EmbedBuilder()
 		.setTitle('Amount of Calls Attended:')
 		.setDescription(countCallsAttended)
-		.setColor('#C7CEEA');
+		.setColor('#FFDAC1');
 
 	const moneySeizedEmbed = new EmbedBuilder()
 		.setTitle('Amount of Money seized:')
 		.setDescription(countMoneySeized)
-		.setColor('#FFDAC1');
+		.setColor('#E2F0CB');
 
 	const gunsSeizedEmbed = new EmbedBuilder()
 		.setTitle('Amount of Guns seized:')
 		.setDescription(countGunsSeized)
-		.setColor('#E2F0CB');
+		.setColor('#B5EAD7');
 
 	const drugsSeizedEmbed = new EmbedBuilder()
 		.setTitle('Amount of Drugs seized:')
 		.setDescription(countDrugsSeized)
-		.setColor('#B5EAD7');
+		.setColor('#C7CEEA');
 
 	const btnRow1 = addBtnRow1();
 	const btnRow2 = addBtnRow2();
