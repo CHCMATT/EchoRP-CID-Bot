@@ -21,7 +21,7 @@ module.exports = {
 		},
 	],
 	async execute(interaction) {
-		if (interaction.member._roles.includes('1055048397746348032') || interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
+		if (interaction.member._roles.includes(process.env.CID_ROLE_ID) || interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
 			const counterName = interaction.options.getString('countername').toLowerCase();
 
 			if (counterName === "search") {
@@ -57,7 +57,7 @@ module.exports = {
 			await editEmbed.editEmbed(interaction.client);
 			await interaction.reply({ content: `Successfully added \`1\` to the \`${fixedName}\` counter - the new total is \`${newValue}\`.`, ephemeral: true });
 
-			await interaction.client.channels.cache.get('1061406583478833223').send(`:warning: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`1\` to the \`${fixedName}\` counter for a new total of \`${newValue}\`.`)
+			await interaction.client.channels.cache.get(process.env.AUDIT_CHANNEL_ID).send(`:warning: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`1\` to the \`${fixedName}\` counter for a new total of \`${newValue}\`.`)
 		}
 		else {
 			await interaction.reply({ content: `:x: You must have the \`CID\` role or have the \`Administrator\` permission to use this function.`, ephemeral: true });
