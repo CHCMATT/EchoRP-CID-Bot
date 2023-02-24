@@ -44,14 +44,14 @@ module.exports.modalSubmit = async (interaction) => {
 					await dbCmds.addValue("countMoneySeized", moneySeized);
 					const newTotal = formatter.format(await dbCmds.readValue("countMoneySeized"));
 					const moneySeizedFormatted = formatter.format(moneySeized);
-					editEmbed.editEmbed(interaction.client);
+					await editEmbed.editEmbed(interaction.client);
 					await interaction.reply({
 						content: `Successfully added \`${moneySeizedFormatted}\` to the \`Money Seized\` counter - the new total is \`${newTotal}\`.`,
 						ephemeral: true
 					});
 					await interaction.client.channels.cache.get(process.env.AUDIT_CHANNEL_ID).send({
 						content: `:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`${moneySeizedFormatted}\` to the \`Money Seized\` counter for a new total of \`${newTotal}\`. The associated Report # is \`${moneyCaseNum}\` with Case File \`${moneyCaseFileLink}\`.`
-					})
+					});
 				}
 				break;
 			case 'gunsSeizedModal':
@@ -65,7 +65,7 @@ module.exports.modalSubmit = async (interaction) => {
 				} else {
 					await dbCmds.addValue("countGunsSeized", gunsSeized);
 					const newTotal = await dbCmds.readValue("countGunsSeized");
-					editEmbed.editEmbed(interaction.client);
+					await editEmbed.editEmbed(interaction.client);
 					await interaction.reply({
 						content: `Successfully added \`${gunsSeized}\` to the \`Guns Seized\` counter - the new total is \`${newTotal}\`.`,
 						ephemeral: true
@@ -85,7 +85,7 @@ module.exports.modalSubmit = async (interaction) => {
 				} else {
 					await dbCmds.addValue("countDrugsSeized", drugsSeized);
 					const newTotal = await dbCmds.readValue("countDrugsSeized");
-					editEmbed.editEmbed(interaction.client);
+					await editEmbed.editEmbed(interaction.client);
 					await interaction.reply({
 						content: `Successfully added \`${drugsSeized}\` to the \`Drugs Seized\` counter - the new total is \`${newTotal}\`.`,
 						ephemeral: true
@@ -94,6 +94,21 @@ module.exports.modalSubmit = async (interaction) => {
 						content: `:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`${drugsSeized}\` to the \`Drugs Seized\` counter for a new total of \`${newTotal}\`.`
 					})
 				}
+				break;
+			case 'callsAttendedModal':
+				let callsAttendedReportNum = interaction.fields.getTextInputValue('callsAttendedReportNumInput');
+				let callsAttendedNotes = interaction.fields.getTextInputValue('callsAttendedNotesInput');
+				if (!callsAttendedReportNum) {
+					callsAttendedReportNum = 'N/A'
+				}
+				if (!callsAttendedNotes) {
+					callsAttendedNotes = 'N/A'
+				}
+				await dbCmds.addOne("countCallsAttended");
+				const newTotal = await dbCmds.readValue("countCallsAttended");
+				await editEmbed.editEmbed(interaction.client);
+				await interaction.reply({ content: `Successfully added \`1\` to the \`Calls Attended\` counter - the new total is \`${newTotal}\`.`, ephemeral: true });
+				await interaction.client.channels.cache.get(process.env.AUDIT_CHANNEL_ID).send(`:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`1\` to the \`Calls Attended\` counter for a new total of \`${newTotal}\`. The associated Report # is \`${callsAttendedReportNum}\` and the following notes were included: \`${callsAttendedNotes}\`.`);
 				break;
 			default:
 				await interaction.reply({
