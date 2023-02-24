@@ -26,13 +26,13 @@ module.exports.btnPressed = async (interaction) => {
 					.setTitle('Add a call that you attended');
 				const callsAttendedReportNumInput = new TextInputBuilder()
 					.setCustomId('callsAttendedReportNumInput')
-					.setLabel("What is the MDT report # attached to this?")
+					.setLabel("What is the MDT report #? (if applicable)")
 					.setStyle(TextInputStyle.Short)
 					.setPlaceholder('12345')
 					.setRequired(false);
 				const callsAttendedNotesInput = new TextInputBuilder()
 					.setCustomId('callsAttendedNotesInput')
-					.setLabel("Is there anything to note regarding this?")
+					.setLabel("Is there anything to note? (if applicable)")
 					.setStyle(TextInputStyle.Short)
 					.setRequired(false);
 				const callsAttendedReportNumInputRow = new ActionRowBuilder().addComponents(callsAttendedReportNumInput);
