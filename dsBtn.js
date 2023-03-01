@@ -34,10 +34,18 @@ module.exports.btnPressed = async (interaction) => {
 					.setCustomId('callsAttendedNotesInput')
 					.setLabel("Is there anything to note? (if applicable)")
 					.setStyle(TextInputStyle.Short)
+					.setPlaceholder('There was a piece of pie found on scene.')
+					.setRequired(false);
+				const callsAttendedAddtlOffcInput = new TextInputBuilder()
+					.setCustomId('callsAttendedAddtlOffcInput')
+					.setLabel("Any attl. CID members on the call with you?")
+					.setStyle(TextInputStyle.Short)
+					.setPlaceholder('501, 314, etc...')
 					.setRequired(false);
 				const callsAttendedReportNumInputRow = new ActionRowBuilder().addComponents(callsAttendedReportNumInput);
 				const callsAttendedNotesInputRow = new ActionRowBuilder().addComponents(callsAttendedNotesInput);
-				addCallsModal.addComponents(callsAttendedReportNumInputRow, callsAttendedNotesInputRow);
+				const callsAttendedAddtlOffcInputRow = new ActionRowBuilder().addComponents(callsAttendedAddtlOffcInput);
+				addCallsModal.addComponents(callsAttendedReportNumInputRow, callsAttendedNotesInputRow, callsAttendedAddtlOffcInputRow);
 				await interaction.showModal(addCallsModal);
 				break;
 			case 'addMoney':

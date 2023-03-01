@@ -98,17 +98,18 @@ module.exports.modalSubmit = async (interaction) => {
 			case 'callsAttendedModal':
 				let callsAttendedReportNum = interaction.fields.getTextInputValue('callsAttendedReportNumInput');
 				let callsAttendedNotes = interaction.fields.getTextInputValue('callsAttendedNotesInput');
-				if (!callsAttendedReportNum) {
-					callsAttendedReportNum = 'N/A'
-				}
-				if (!callsAttendedNotes) {
-					callsAttendedNotes = 'N/A'
-				}
+				let callsAttendedAddtlOffc = interaction.fields.getTextInputValue('callsAttendedAddtlOffcInput');
+
 				await dbCmds.addOne("countCallsAttended");
 				const newTotal = await dbCmds.readValue("countCallsAttended");
 				await editEmbed.editEmbed(interaction.client);
+
+				let msgContent = `:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`1\` to the \`Calls Attended\` counter for a new total of \`${newTotal}\`.`
+				if (callsAttendedReportNum) { msgContent = msgContent + ` The associated Report # is \`${callsAttendedReportNum}\`.` }
+				if (callsAttendedNotes) { msgContent = msgContent + ` The following notes were included: \`${callsAttendedNotes}\`.` }
+				if (callsAttendedAddtlOffc) { msgContent = msgContent + ` The listed additional CID members were: \`${callsAttendedAddtlOffc}\`.` }
 				await interaction.reply({ content: `Successfully added \`1\` to the \`Calls Attended\` counter - the new total is \`${newTotal}\`.`, ephemeral: true });
-				await interaction.client.channels.cache.get(process.env.AUDIT_CHANNEL_ID).send(`:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`1\` to the \`Calls Attended\` counter for a new total of \`${newTotal}\`. The associated Report # is \`${callsAttendedReportNum}\` and the following notes were included: \`${callsAttendedNotes}\`.`);
+				await interaction.client.channels.cache.get(process.env.AUDIT_CHANNEL_ID).send(msgContent);
 				break;
 			default:
 				await interaction.reply({
@@ -122,3 +123,5 @@ module.exports.modalSubmit = async (interaction) => {
 		console.error(error);
 	}
 };
+
+
