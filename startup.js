@@ -58,8 +58,7 @@ module.exports.startUp = async (client) => {
 		.setDescription(countDrugsSeized)
 		.setColor('#C7CEEA');
 
-	const btnRow1 = addBtnRow1();
-	const btnRow2 = addBtnRow2();
+	const btnRows = addBtnRows();
 
 	const oldEmbed = await dbCmds.readMsgId("embedMsg");
 	const channel = await client.channels.fetch(process.env.EMBED_CHANNEL_ID);
@@ -72,14 +71,14 @@ module.exports.startUp = async (client) => {
 		console.log(`[${fileName}] Unable to delete message - message ID ${oldEmbed} not found.`);
 	}
 
-	client.embedMsg = await client.channels.cache.get(process.env.EMBED_CHANNEL_ID).send({ embeds: [searchWarrantsEmbed, subpoenasEmbed, callsAttendedEmbed, moneySeizedEmbed, gunsSeizedEmbed, drugsSeizedEmbed], components: [btnRow1, btnRow2] });
+	client.embedMsg = await client.channels.cache.get(process.env.EMBED_CHANNEL_ID).send({ embeds: [searchWarrantsEmbed, subpoenasEmbed, callsAttendedEmbed, moneySeizedEmbed, gunsSeizedEmbed, drugsSeizedEmbed], components: btnRows });
 
 	await dbCmds.setMsgId("embedMsg", client.embedMsg.id);
 
 	await client.channels.cache.get(process.env.LOG_CHANNEL_ID).send(`:bangbang: The ${process.env.BOT_NAME} bot started up at ${time}.`)
 };
 
-function addBtnRow1() {
+function addBtnRows() {
 	const row1 = new ActionRowBuilder().addComponents(
 		new ButtonBuilder()
 			.setCustomId('addSW')
@@ -96,10 +95,6 @@ function addBtnRow1() {
 			.setLabel('Add a Call Attended')
 			.setStyle(ButtonStyle.Success)
 	);
-	return row1;
-}
-
-function addBtnRow2() {
 	const row2 = new ActionRowBuilder().addComponents(
 		new ButtonBuilder()
 			.setCustomId('addMoney')
@@ -116,5 +111,6 @@ function addBtnRow2() {
 			.setLabel('Add Drugs Seized')
 			.setStyle(ButtonStyle.Success)
 	);
-	return row2;
+	const rows = [row1, row2];
+	return rows;
 }
