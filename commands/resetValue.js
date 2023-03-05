@@ -21,7 +21,7 @@ module.exports = {
 		},
 	],
 	async execute(interaction) {
-		if (interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
+		if (interaction.member._roles.includes(process.env.FULL_TIME_DET_ROLE_ID) || interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
 
 			const counterName = interaction.options.getString('countername').toLowerCase();
 
@@ -61,7 +61,7 @@ module.exports = {
 			await interaction.client.channels.cache.get(process.env.AUDIT_CHANNEL_ID).send(`:warning: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) reset the value of the \`${fixedName}\` counter to \`${newValue}\`.`)
 		}
 		else {
-			await interaction.reply({ content: `:x: You must have the \`Administrator\` permission to use this function.`, ephemeral: true });
+			await interaction.reply({ content: `:x: You must have the \`Full Time Detective\` role or the \`Administrator\` permission to use this function.`, ephemeral: true });
 		}
 	},
 };

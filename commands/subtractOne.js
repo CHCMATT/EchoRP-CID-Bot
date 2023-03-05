@@ -21,7 +21,7 @@ module.exports = {
 		},
 	],
 	async execute(interaction) {
-		if (interaction.member._roles.includes('1055048397746348032') || interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
+		if (interaction.member._roles.includes(process.env.CID_ROLE_ID) || interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
 			const counterName = interaction.options.getString('countername').toLowerCase();
 
 			if (counterName === "search") {
@@ -60,7 +60,7 @@ module.exports = {
 			await interaction.client.channels.cache.get(process.env.AUDIT_CHANNEL_ID).send(`:warning: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) subtracted \`1\` from the \`${fixedName}\` counter for a new total of \`${newValue}\`.`)
 		}
 		else {
-			await interaction.reply({ content: `:x: You must have the \`CID\` role or have the \`Administrator\` permission to use this function.`, ephemeral: true });
+			await interaction.reply({ content: `:x: You must have the \`CID\` role or the \`Administrator\` permission to use this function.`, ephemeral: true });
 		}
 	},
 };
