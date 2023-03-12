@@ -23,8 +23,8 @@ module.exports.modalSubmit = async (interaction) => {
 		switch (modalID) {
 			case 'moneySeizedModal':
 				const moneySeized = Math.abs(Number(interaction.fields.getTextInputValue('moneySeizedInput')));
-				const moneyCaseNum = interaction.fields.getTextInputValue('moneyCaseNumInput');
-				const moneyCaseFileLink = interaction.fields.getTextInputValue('moneyCaseFileLinkInput');
+				const moneyCaseNum = interaction.fields.getTextInputValue('moneyCaseNumInput').trimEnd().trimStart();
+				const moneyCaseFileLink = interaction.fields.getTextInputValue('moneyCaseFileLinkInput').trimEnd().trimStart();
 				if (isNaN(moneySeized)) { // validate quantity of money
 					await interaction.reply({
 						content: `:exclamation: \`${interaction.fields.getTextInputValue('moneySeizedInput')}\` is not a valid number, please be sure to only enter numbers (no $ or commas).`,
@@ -56,7 +56,7 @@ module.exports.modalSubmit = async (interaction) => {
 				break;
 			case 'gunsSeizedModal':
 				const gunsSeized = Math.abs(Number(interaction.fields.getTextInputValue('gunsSeizedInput')));
-				const gunsLocation = interaction.fields.getTextInputValue('gunsLocationInput');
+				const gunsLocation = interaction.fields.getTextInputValue('gunsLocationInput').trimEnd().trimStart();
 				if (isNaN(gunsSeized)) { // validate quantity of guns
 					await interaction.reply({
 						content: `:exclamation: \`${interaction.fields.getTextInputValue('gunsSeizedInput')}\` is not a valid number, please be sure to only enter numbers (no $ or commas).`,
@@ -96,16 +96,16 @@ module.exports.modalSubmit = async (interaction) => {
 				}
 				break;
 			case 'callsAttendedModal':
-				let callsAttendedReportNum = interaction.fields.getTextInputValue('callsAttendedReportNumInput');
-				let callsAttendedNotes = interaction.fields.getTextInputValue('callsAttendedNotesInput');
-				let callsAttendedAddtlOffc = interaction.fields.getTextInputValue('callsAttendedAddtlOffcInput');
+				let callsAttendedReportNum = interaction.fields.getTextInputValue('callsAttendedReportNumInput').trimEnd().trimStart();
+				let callsAttendedNotes = interaction.fields.getTextInputValue('callsAttendedNotesInput').trimEnd().trimStart();
+				let callsAttendedAddtlOffc = interaction.fields.getTextInputValue('callsAttendedAddtlOffcInput').trimEnd().trimStart();
 
 				await dbCmds.addOne("countCallsAttended");
 				const newTotal = await dbCmds.readValue("countCallsAttended");
 				await editEmbed.editEmbed(interaction.client);
 
 				let msgContent = `:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`1\` to the \`Calls Attended\` counter for a new total of \`${newTotal}\`.`
-				if (callsAttendedReportNum) { msgContent = msgContent + ` The associated Report # is \`${callsAttendedReportNum}\`.` }
+				if (callsAttendedReportNum && callsAttendedReportNum.toLowerCase() != 'n/a' && callsAttendedReportNum.toLowerCase() != 'na') { msgContent = msgContent + ` The associated Report # is \`${callsAttendedReportNum}\`.` }
 				if (callsAttendedNotes) { msgContent = msgContent + ` The following notes were included: \`${callsAttendedNotes}\`.` }
 				if (callsAttendedAddtlOffc) { msgContent = msgContent + ` The listed additional CID members were: \`${callsAttendedAddtlOffc}\`.` }
 				await interaction.reply({ content: `Successfully added \`1\` to the \`Calls Attended\` counter - the new total is \`${newTotal}\`.`, ephemeral: true });
