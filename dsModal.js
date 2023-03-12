@@ -57,6 +57,17 @@ module.exports.modalSubmit = async (interaction) => {
 			case 'gunsSeizedModal':
 				const gunsSeized = Math.abs(Number(interaction.fields.getTextInputValue('gunsSeizedInput')));
 				const gunsLocation = interaction.fields.getTextInputValue('gunsLocationInput').trimEnd().trimStart();
+
+				//remove period (.) from end of string
+				while (gunsLocation[gunsLocation.length - 1] === ".") {
+					gunsLocation = gunsLocation.slice(0, -1);
+				}
+
+				//remove comma (,) from end of string
+				while (callsAgunsLocationttendedReportNum[gunsLocation.length - 1] === ",") {
+					gunsLocation = gunsLocation.slice(0, -1);
+				}
+
 				if (isNaN(gunsSeized)) { // validate quantity of guns
 					await interaction.reply({
 						content: `:exclamation: \`${interaction.fields.getTextInputValue('gunsSeizedInput')}\` is not a valid number, please be sure to only enter numbers (no $ or commas).`,
@@ -99,6 +110,28 @@ module.exports.modalSubmit = async (interaction) => {
 				let callsAttendedReportNum = interaction.fields.getTextInputValue('callsAttendedReportNumInput').trimEnd().trimStart();
 				let callsAttendedNotes = interaction.fields.getTextInputValue('callsAttendedNotesInput').trimEnd().trimStart();
 				let callsAttendedAddtlOffc = interaction.fields.getTextInputValue('callsAttendedAddtlOffcInput').trimEnd().trimStart();
+
+				//remove period (.) from end of strings
+				while (callsAttendedReportNum[callsAttendedReportNum.length - 1] === ".") {
+					callsAttendedReportNum = callsAttendedReportNum.slice(0, -1);
+				}
+				while (callsAttendedNotes[callsAttendedNotes.length - 1] === ".") {
+					callsAttendedNotes = callsAttendedNotes.slice(0, -1);
+				}
+				while (callsAttendedAddtlOffc[callsAttendedAddtlOffc.length - 1] === ".") {
+					callsAttendedAddtlOffc = callsAttendedAddtlOffc.slice(0, -1);
+				}
+
+				//remove comma (,) from end of strings
+				while (callsAttendedReportNum[callsAttendedReportNum.length - 1] === ",") {
+					callsAttendedReportNum = callsAttendedReportNum.slice(0, -1);
+				}
+				while (callsAttendedNotes[callsAttendedNotes.length - 1] === ",") {
+					callsAttendedNotes = callsAttendedNotes.slice(0, -1);
+				}
+				while (callsAttendedAddtlOffc[callsAttendedAddtlOffc.length - 1] === ",") {
+					callsAttendedAddtlOffc = callsAttendedAddtlOffc.slice(0, -1);
+				}
 
 				await dbCmds.addOne("countCallsAttended");
 				const newTotal = await dbCmds.readValue("countCallsAttended");
