@@ -21,6 +21,8 @@ module.exports.startUp = async (client) => {
 	let countGunsSeized = await dbCmds.readValue("countGunsSeized");
 	let countDrugsSeized = await dbCmds.readValue("countDrugsSeized");
 
+	// Color Palette: https://www.schemecolor.com/rainbow-pastels-color-scheme.php
+
 	countSearchWarrants = countSearchWarrants.toString();
 	countSubpoenas = countSubpoenas.toString();
 	countCallsAttended = countCallsAttended.toString();
