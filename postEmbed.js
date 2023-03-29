@@ -7,7 +7,7 @@ const formatter = new Intl.NumberFormat('en-US', {
 	maximumFractionDigits: 0
 });
 
-module.exports.editEmbed = async (client) => {
+module.exports.postEmbed = async (client) => {
 	let countSearchWarrants = await dbCmds.readValue("countSearchWarrants");
 	let countSubpoenas = await dbCmds.readValue("countSubpoenas");
 	let countCallsAttended = await dbCmds.readValue("countCallsAttended");
@@ -15,14 +15,14 @@ module.exports.editEmbed = async (client) => {
 	let countGunsSeized = await dbCmds.readValue("countGunsSeized");
 	let countDrugsSeized = await dbCmds.readValue("countDrugsSeized");
 
+	// Color Palette: https://www.schemecolor.com/rainbow-pastels-color-scheme.php
+
 	countSearchWarrants = countSearchWarrants.toString();
 	countSubpoenas = countSubpoenas.toString();
 	countCallsAttended = countCallsAttended.toString();
 	countMoneySeized = countMoneySeized.toString();
 	countGunsSeized = countGunsSeized.toString();
 	countDrugsSeized = countDrugsSeized.toString();
-
-	// Color Palette: https://www.schemecolor.com/rainbow-pastels-color-scheme.php
 
 	const searchWarrantsEmbed = new EmbedBuilder()
 		.setTitle('Amount of Search Warrants served:')
@@ -54,14 +54,11 @@ module.exports.editEmbed = async (client) => {
 		.setDescription(countDrugsSeized)
 		.setColor('#C7CEEA');
 
-	const currEmbed = await dbCmds.readMsgId("embedMsg");
-
-	const channel = await client.channels.fetch(process.env.EMBED_CHANNEL_ID)
-	const currMsg = await channel.messages.fetch(currEmbed);
-
 	const btnRows = addBtnRows();
 
-	currMsg.edit({ embeds: [searchWarrantsEmbed, subpoenasEmbed, callsAttendedEmbed, moneySeizedEmbed, gunsSeizedEmbed, drugsSeizedEmbed], components: btnRows });
+	client.embedMsg = await client.channels.cache.get(process.env.EMBED_CHANNEL_ID).send({ embeds: [searchWarrantsEmbed, subpoenasEmbed, callsAttendedEmbed, moneySeizedEmbed, gunsSeizedEmbed, drugsSeizedEmbed], components: btnRows });
+
+	await dbCmds.setMsgId("embedMsg", client.embedMsg.id);
 };
 
 function addBtnRows() {
