@@ -64,7 +64,7 @@ module.exports.modalSubmit = async (interaction) => {
 				}
 
 				//remove comma (,) from end of string
-				while (callsAgunsLocationttendedReportNum[gunsLocation.length - 1] === ",") {
+				while (gunsLocation[gunsLocation.length - 1] === ",") {
 					gunsLocation = gunsLocation.slice(0, -1);
 				}
 
