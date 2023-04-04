@@ -25,12 +25,18 @@ module.exports = {
 	],
 	async execute(interaction) {
 		if (interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
-			const user = interaction.options.getUser('user');
-			const callSign = interaction.options.getInteger('callsign');
-			const charName = interaction.options.getString('name');
-			const newNick = callSign + " | " + charName;
-			await interaction.guild.members.cache.get(user.id).setNickname(`${newNick}`, `Requested by: ${interaction.member.user.username}`);
-			await interaction.reply({ content: `Successfully changed nickname of \`${user.username}#${user.discriminator}\` to \`${newNick}\`.`, ephemeral: true });
+			try {
+				const user = interaction.options.getUser('user');
+				const callSign = interaction.options.getInteger('callsign');
+				const charName = interaction.options.getString('name');
+				const newNick = callSign + " | " + charName;
+				await interaction.guild.members.cache.get(user.id).setNickname(`${newNick}`, `Requested by: ${interaction.member.user.username}`);
+				await interaction.reply({ content: `Successfully changed nickname of \`${user.username}#${user.discriminator}\` to \`${newNick}\`.`, ephemeral: true });
+			}
+			catch (error) {
+				const user = interaction.options.getUser('user');
+				await interaction.reply({ content: `:warning: Unable to change nickname - my highest role isn't higher than \`${user.username}#${user.discriminator}\`'s.`, ephemeral: true });
+			}
 		}
 		else {
 			await interaction.reply({ content: `:x: You must have the \`Administrator\` permission to use this function.`, ephemeral: true });
