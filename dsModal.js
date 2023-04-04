@@ -146,7 +146,7 @@ module.exports.modalSubmit = async (interaction) => {
 				break;
 			default:
 				await interaction.reply({
-					content: `I\'m not familiar with this modal type. Please tag @CHCMATT to fix this issue.`,
+					content: `I'm not familiar with this modal type. Please tag @CHCMATT to fix this issue.`,
 					ephemeral: true
 				});
 				console.log(`Error: Unrecognized modal ID: ${interaction.customId}`);
