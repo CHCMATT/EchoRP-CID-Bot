@@ -1,10 +1,9 @@
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
-const mongoose = require("mongoose");
 const fs = require('fs');
-require("dotenv/config");
-const interact = require('./dsInteractions.js');
-const dbCmds = require('./dbCmds.js');
+const mongoose = require("mongoose");
 const startup = require('./startup.js');
+const dotenv = require("dotenv/config");
+const interact = require('./dsInteractions.js');
+const { Client, Collection, GatewayIntentBits } = require('discord.js');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers], partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 
@@ -57,5 +56,5 @@ client.once('ready', async () => {
 	}
 	console.log(`[${fileName}] Client is ready.`);
 
-	startup.startUp(client);
+	await startup.startUp(client);;
 });
