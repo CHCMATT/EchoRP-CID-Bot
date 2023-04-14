@@ -1,4 +1,4 @@
-const startup = require('./startup.js');
+const startup = require('../startup.js');
 const { PermissionsBitField } = require('discord.js');
 
 module.exports = {

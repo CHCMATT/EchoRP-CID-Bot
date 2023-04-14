@@ -1,13 +1,7 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = require('discord.js');
+require('discord.js');
 const dbCmds = require('./dbCmds.js');
 const postEmbed = require('./postEmbed.js');
 const editEmbed = require('./editEmbed.js');
-
-const formatter = new Intl.NumberFormat('en-US', {
-	style: 'currency',
-	currency: 'USD',
-	maximumFractionDigits: 0
-});
 
 module.exports.startUp = async (client) => {
 	const channel = await client.channels.fetch(process.env.EMBED_CHANNEL_ID);

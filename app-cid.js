@@ -1,7 +1,7 @@
+require("dotenv/config");
 const fs = require('fs');
 const mongoose = require("mongoose");
 const startup = require('./startup.js');
-const dotenv = require("dotenv/config");
 const interact = require('./dsInteractions.js');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 
