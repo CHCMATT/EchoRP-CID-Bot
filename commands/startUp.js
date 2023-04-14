@@ -1,4 +1,4 @@
-const postEmbed = require('../postEmbed.js');
+const startup = require('./startup.js');
 const { PermissionsBitField } = require('discord.js');
 
 module.exports = {
@@ -7,7 +7,7 @@ module.exports = {
 
 	async execute(interaction) {
 		if (interaction.member._roles.includes(process.env.CID_ROLE_ID) || interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
-			await postEmbed.postEmbed(interaction.client);
+			await startup.startUp(interaction.client);
 			await interaction.reply({ content: `Successfully posted the embed to the <#${process.env.EMBED_CHANNEL_ID}> channel.`, ephemeral: true });
 		}
 		else {
