@@ -14,7 +14,7 @@ module.exports = {
 	options: [
 		{
 			name: 'countername',
-			description: 'The name of the counter you are adding to',
+			description: 'The name of the counter you are resetting',
 			choices: [{ name: 'Search Warrants', value: 'search' }, { name: 'Subpoenas', value: 'subpoenas' }, { name: 'Calls Attended', value: 'calls' }, { name: 'Money Seized', value: 'money' }, { name: 'Guns Seized', value: 'guns' }, { name: 'Drugs Seized', value: 'drugs' }],
 			type: 3,
 			required: true,
