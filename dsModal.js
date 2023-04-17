@@ -22,7 +22,7 @@ module.exports.modalSubmit = async (interaction) => {
 		const modalID = interaction.customId;
 		switch (modalID) {
 			case 'moneySeizedModal':
-				const moneySeized = Math.abs(Number(interaction.fields.getTextInputValue('moneySeizedInput')));
+				const moneySeized = Math.abs(Number(interaction.fields.getTextInputValue('moneySeizedInput').trimEnd().trimStart().replaceAll(',', '').replaceAll('$', '')));
 				const moneyCaseNum = interaction.fields.getTextInputValue('moneyCaseNumInput').trimEnd().trimStart();
 				const moneyCaseFileLink = interaction.fields.getTextInputValue('moneyCaseFileLinkInput').trimEnd().trimStart();
 				if (isNaN(moneySeized)) { // validate quantity of money
