@@ -32,7 +32,8 @@ client.once('ready', async () => {
 		cmdList.push(command); // push that command to the array
 		client.commands[command.name] = command; // Save the command name and command information to the client
 	}
-	const allCommands = await client.guilds.cache.get(process.env.SERVER_ID).commands.set(cmdList) // Sets all the commands
+	console.log(`[${fileName}] Getting commands for Server ID ${process.env.DISCORD_SERVER_ID}.`);
+	const allCommands = await client.guilds.cache.get(process.env.DISCORD_SERVER_ID).commands.set(cmdList) // Sets all the commands
 		.catch(console.error);
 	const cmdIDs = allCommands.keys();
 	for (let i = 0; i < allCommands.size; i++) {
@@ -43,7 +44,7 @@ client.once('ready', async () => {
 			if (permission.length == undefined) { // If the permission isn't already an array (more than 1 permission), turn it into an array as that is what the function requires
 				permission = [permission];
 			}
-			client.guilds.cache.get(process.env.SERVER_ID).commands.permissions.set({ command: cmdID, permissions: permission })
+			client.guilds.cache.get(process.env.DISCORD_SERVER_ID).commands.permissions.set({ command: cmdID, permissions: permission })
 				.catch(console.error);
 		}
 	}
