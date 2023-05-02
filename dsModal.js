@@ -17,27 +17,32 @@ function isValidUrl(string) {
 	return url.protocol === "http:" || url.protocol === "https:";
 }
 
+function strCleanup(str) {
+	var cleaned = str.replaceAll('`', '-').replaceAll('\\', '-');
+	return cleaned;
+};
+
 module.exports.modalSubmit = async (interaction) => {
 	try {
 		const modalID = interaction.customId;
 		switch (modalID) {
 			case 'moneySeizedModal':
-				const moneySeized = Math.abs(Number(interaction.fields.getTextInputValue('moneySeizedInput').trimEnd().trimStart().replaceAll(',', '').replaceAll('$', '')));
-				const moneyCaseNum = interaction.fields.getTextInputValue('moneyCaseNumInput').trimEnd().trimStart();
-				const moneyCaseFileLink = interaction.fields.getTextInputValue('moneyCaseFileLinkInput').trimEnd().trimStart();
+				const moneySeized = Math.abs(Number(strCleanup(interaction.fields.getTextInputValue('moneySeizedInput')).replaceAll(',', '').replaceAll('$', '')));
+				const moneyCaseNum = strCleanup(interaction.fields.getTextInputValue('moneyCaseNumInput'));
+				const moneyCaseFileLink = strCleanup(interaction.fields.getTextInputValue('moneyCaseFileLinkInput'));
 				if (isNaN(moneySeized)) { // validate quantity of money
 					await interaction.reply({
-						content: `:exclamation: \`${interaction.fields.getTextInputValue('moneySeizedInput')}\` is not a valid number, please be sure to only enter numbers (no $ or commas).`,
+						content: `:exclamation: \`${strCleanup(interaction.fields.getTextInputValue('moneySeizedInput'))}\` is not a valid number, please be sure to only enter numbers.`,
 						ephemeral: true
 					});
 				} else if (isNaN(moneyCaseNum)) { // validate case number
 					await interaction.reply({
-						content: `:exclamation: \`${interaction.fields.getTextInputValue('moneyCaseNumInput')}\` is not a valid number, please be sure to only enter numbers (no # or letters).`,
+						content: `:exclamation: \`${strCleanup(interaction.fields.getTextInputValue('moneyCaseNumInput'))}\` is not a valid number, please be sure to only enter numbers (no # or letters).`,
 						ephemeral: true
 					});
 				} else if (!isValidUrl(moneyCaseFileLink)) { // validate case file link
 					await interaction.reply({
-						content: `:exclamation: \`${interaction.fields.getTextInputValue('moneyCaseFileLinkInput')}\` is not a valid URL, please be sure to enter a URL including the \`http\:\/\/\` or \`https\:\/\/\` portion.`,
+						content: `:exclamation: \`${strCleanup(interaction.fields.getTextInputValue('moneyCaseFileLinkInput'))}\` is not a valid URL, please be sure to enter a URL including the \`http\:\/\/\` or \`https\:\/\/\` portion.`,
 						ephemeral: true
 					});
 				} else {
@@ -55,8 +60,8 @@ module.exports.modalSubmit = async (interaction) => {
 				}
 				break;
 			case 'gunsSeizedModal':
-				const gunsSeized = Math.abs(Number(interaction.fields.getTextInputValue('gunsSeizedInput')));
-				const gunsLocation = interaction.fields.getTextInputValue('gunsLocationInput').trimEnd().trimStart();
+				const gunsSeized = Math.abs(Number(strCleanup(interaction.fields.getTextInputValue('gunsSeizedInput'))));
+				const gunsLocation = strCleanup(interaction.fields.getTextInputValue('gunsLocationInput'));
 
 				//remove period (.) from end of string
 				while (gunsLocation[gunsLocation.length - 1] === ".") {
@@ -70,7 +75,7 @@ module.exports.modalSubmit = async (interaction) => {
 
 				if (isNaN(gunsSeized)) { // validate quantity of guns
 					await interaction.reply({
-						content: `:exclamation: \`${interaction.fields.getTextInputValue('gunsSeizedInput')}\` is not a valid number, please be sure to only enter numbers (no $ or commas).`,
+						content: `:exclamation: \`${strCleanup(interaction.fields.getTextInputValue('gunsSeizedInput'))}\` is not a valid number, please be sure to only enter numbers.`,
 						ephemeral: true
 					});
 				} else {
@@ -87,10 +92,10 @@ module.exports.modalSubmit = async (interaction) => {
 				}
 				break;
 			case 'drugsSeizedModal':
-				const drugsSeized = Math.abs(Number(interaction.fields.getTextInputValue('drugsSeizedInput')));
+				const drugsSeized = Math.abs(Number(strCleanup(interaction.fields.getTextInputValue('drugsSeizedInput'))));
 				if (isNaN(drugsSeized)) { // validate quantity of drugs
 					await interaction.reply({
-						content: `:exclamation: \`${interaction.fields.getTextInputValue('drugsSeizedInput')}\` is not a valid number, please be sure to only enter numbers (no $ or commas).`,
+						content: `:exclamation: \`${strCleanup(interaction.fields.getTextInputValue('drugsSeizedInput'))}\` is not a valid number, please be sure to only enter numbers.`,
 						ephemeral: true
 					});
 				} else {
@@ -107,9 +112,9 @@ module.exports.modalSubmit = async (interaction) => {
 				}
 				break;
 			case 'callsAttendedModal':
-				let callsAttendedReportNum = interaction.fields.getTextInputValue('callsAttendedReportNumInput').trimEnd().trimStart();
-				let callsAttendedNotes = interaction.fields.getTextInputValue('callsAttendedNotesInput').trimEnd().trimStart();
-				let callsAttendedAddtlOffc = interaction.fields.getTextInputValue('callsAttendedAddtlOffcInput').trimEnd().trimStart();
+				let callsAttendedReportNum = strCleanup(interaction.fields.getTextInputValue('callsAttendedReportNumInput'));
+				let callsAttendedNotes = strCleanup(interaction.fields.getTextInputValue('callsAttendedNotesInput'));
+				let callsAttendedAddtlOffc = strCleanup(interaction.fields.getTextInputValue('callsAttendedAddtlOffcInput'));
 
 				//remove period (.) from end of strings
 				while (callsAttendedReportNum[callsAttendedReportNum.length - 1] === ".") {
