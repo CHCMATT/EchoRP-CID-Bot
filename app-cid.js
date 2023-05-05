@@ -1,6 +1,7 @@
 require("dotenv/config");
 const fs = require('fs');
 const mongoose = require("mongoose");
+var { google } = require('googleapis');
 const startup = require('./startup.js');
 const interact = require('./dsInteractions.js');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
@@ -16,13 +17,24 @@ const fileParts = __filename.split(/[\\/]/);
 const fileName = fileParts[fileParts.length - 1];
 
 client.once('ready', async () => {
-
 	console.log(`[${fileName}] The client is starting up!`);
 	mongoose.set("strictQuery", false);
-	mongoose.connect(process.env.MONGO_URI, {
-		keepAlive: true
-	});
+	mongoose.connect(process.env.MONGO_URI);
 	console.log(`[${fileName}] Connected to Mongo!`);
+
+	// Google Sheets Authorization Stuff
+	var auth = new google.auth.GoogleAuth({
+		keyFile: "./sheets-creds.json",
+		scopes: "https://www.googleapis.com/auth/spreadsheets"
+	})
+	var sheetClient = auth.getClient();
+	var googleSheets = google.sheets({ version: "v4", auth: sheetClient });
+
+	// Stuff that will be very useful in our project
+	client.auth = auth;
+	client.sheetId = process.env.SPREADSHEET_ID;
+	client.googleSheets = googleSheets.spreadsheets;
+	console.log(`[${fileName}] Connected to Google Sheets!`);
 
 	const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js')); // Find all the files in the command folder that end with .js
 	const cmdList = []; // Create an empty array for pushing each command file to
