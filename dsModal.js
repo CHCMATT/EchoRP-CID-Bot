@@ -27,9 +27,17 @@ module.exports.modalSubmit = async (interaction) => {
 		const modalID = interaction.customId;
 		switch (modalID) {
 			case 'moneySeizedModal':
+				var now = Math.floor(new Date().getTime() / 1000.0);
+				var nowDate = `<t:${now}:d>`;
+
 				const moneySeized = Math.abs(Number(strCleanup(interaction.fields.getTextInputValue('moneySeizedInput')).replaceAll(',', '').replaceAll('$', '')));
 				const moneyCaseNum = strCleanup(interaction.fields.getTextInputValue('moneyCaseNumInput'));
 				const moneyCaseFileLink = strCleanup(interaction.fields.getTextInputValue('moneyCaseFileLinkInput'));
+
+				await interaction.client.googleSheets.values.append({
+					auth: interaction.client.auth, spreadsheetId: interaction.client.sheetId, range: "Money Seized!A:E", valueInputOption: "RAW", resource: { values: [[`${interaction.member.nickname} (<@${interaction.user.id}>)`, nowDate, moneySeized, moneyCaseNum, moneyCaseFileLink]] }
+				});
+
 				if (isNaN(moneySeized)) { // validate quantity of money
 					await interaction.reply({
 						content: `:exclamation: \`${strCleanup(interaction.fields.getTextInputValue('moneySeizedInput'))}\` is not a valid number, please be sure to only enter numbers.`,
@@ -60,8 +68,15 @@ module.exports.modalSubmit = async (interaction) => {
 				}
 				break;
 			case 'gunsSeizedModal':
+				var now = Math.floor(new Date().getTime() / 1000.0);
+				var nowDate = `<t:${now}:d>`;
+
 				const gunsSeized = Math.abs(Number(strCleanup(interaction.fields.getTextInputValue('gunsSeizedInput'))));
 				const gunsLocation = strCleanup(interaction.fields.getTextInputValue('gunsLocationInput'));
+
+				await interaction.client.googleSheets.values.append({
+					auth: interaction.client.auth, spreadsheetId: interaction.client.sheetId, range: "Guns Seized!A:D", valueInputOption: "RAW", resource: { values: [[`${interaction.member.nickname} (<@${interaction.user.id}>)`, nowDate, gunsSeized, gunsLocation]] }
+				});
 
 				//remove period (.) from end of string
 				while (gunsLocation[gunsLocation.length - 1] === ".") {
@@ -92,7 +107,14 @@ module.exports.modalSubmit = async (interaction) => {
 				}
 				break;
 			case 'drugsSeizedModal':
+				var now = Math.floor(new Date().getTime() / 1000.0);
+				var nowDate = `<t:${now}:d>`;
+
 				const drugsSeized = Math.abs(Number(strCleanup(interaction.fields.getTextInputValue('drugsSeizedInput'))));
+
+				await interaction.client.googleSheets.values.append({
+					auth: interaction.client.auth, spreadsheetId: interaction.client.sheetId, range: "Drugs Seized!A:C", valueInputOption: "RAW", resource: { values: [[`${interaction.member.nickname} (<@${interaction.user.id}>)`, nowDate, drugsSeized]] }
+				});
 				if (isNaN(drugsSeized)) { // validate quantity of drugs
 					await interaction.reply({
 						content: `:exclamation: \`${strCleanup(interaction.fields.getTextInputValue('drugsSeizedInput'))}\` is not a valid number, please be sure to only enter numbers.`,
@@ -112,9 +134,16 @@ module.exports.modalSubmit = async (interaction) => {
 				}
 				break;
 			case 'callsAttendedModal':
+				var now = Math.floor(new Date().getTime() / 1000.0);
+				var nowDate = `<t:${now}:d>`;
+
 				let callsAttendedReportNum = strCleanup(interaction.fields.getTextInputValue('callsAttendedReportNumInput'));
 				let callsAttendedNotes = strCleanup(interaction.fields.getTextInputValue('callsAttendedNotesInput'));
 				let callsAttendedAddtlOffc = strCleanup(interaction.fields.getTextInputValue('callsAttendedAddtlOffcInput'));
+
+				await interaction.client.googleSheets.values.append({
+					auth: interaction.client.auth, spreadsheetId: interaction.client.sheetId, range: "Calls Attended!A:E", valueInputOption: "RAW", resource: { values: [[`${interaction.member.nickname} (<@${interaction.user.id}>)`, nowDate, callsAttendedReportNum, callsAttendedNotes, callsAttendedAddtlOffc]] }
+				});
 
 				//remove period (.) from end of strings
 				while (callsAttendedReportNum[callsAttendedReportNum.length - 1] === ".") {
