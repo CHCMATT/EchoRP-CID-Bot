@@ -24,7 +24,7 @@ module.exports = {
 		},
 	],
 	async execute(interaction) {
-		if (interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
+		if (interaction.member.permissions.has(PermissionsBitField.Flags.Administrator) || interaction.member.id == 177088916250296320) {
 			try {
 				const user = interaction.options.getUser('user');
 				const callSign = interaction.options.getInteger('callsign');

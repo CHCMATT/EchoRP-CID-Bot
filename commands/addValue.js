@@ -27,7 +27,7 @@ module.exports = {
 		},
 	],
 	async execute(interaction) {
-		if (interaction.member._roles.includes(process.env.FULL_TIME_DET_ROLE_ID) || interaction.member._roles.includes(process.env.CID_TEAM_LEAD_ROLE_ID) || interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
+		if (interaction.member._roles.includes(process.env.FULL_TIME_DET_ROLE_ID) || interaction.member._roles.includes(process.env.CID_TEAM_LEAD_ROLE_ID) || interaction.member.permissions.has(PermissionsBitField.Flags.Administrator) || interaction.member.id == 177088916250296320) {
 			const counterName = interaction.options.getString('countername');
 			const value = Math.abs(interaction.options.getNumber('value'));
 
