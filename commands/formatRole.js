@@ -18,7 +18,7 @@ module.exports = {
 		},
 	],
 	async execute(interaction) {
-		if (interaction.member.permissions.has(PermissionsBitField.Flags.Administrator) || interaction.member.id == 177088916250296320) {
+		if (interaction.member.permissions.has(PermissionsBitField.Flags.Administrator) || interaction.member.id == '177088916250296320') {
 			const role = interaction.options.getRole('role');
 			const oldName = role.name;
 			const newName = interaction.options.getString('newname');
