@@ -26,32 +26,32 @@ module.exports.editEmbed = async (client) => {
 		// Color Palette: https://www.schemecolor.com/rainbow-pastels-color-scheme.php
 
 		const searchWarrantsEmbed = new EmbedBuilder()
-			.setTitle('Amount of Search Warrants served:')
+			.setTitle('Search Warrants served:')
 			.setDescription(countSearchWarrants)
 			.setColor('#FF9AA2');
 
 		const subpoenasEmbed = new EmbedBuilder()
-			.setTitle('Amount of Subpoenas served:')
+			.setTitle('Subpoenas served:')
 			.setDescription(countSubpoenas)
 			.setColor('#FFB7B2');
 
 		const callsAttendedEmbed = new EmbedBuilder()
-			.setTitle('Amount of Calls Attended:')
+			.setTitle('Calls attended:')
 			.setDescription(countCallsAttended)
 			.setColor('#FFDAC1');
 
 		const moneySeizedEmbed = new EmbedBuilder()
-			.setTitle('Amount of Money seized:')
+			.setTitle('Money seized:')
 			.setDescription(countMoneySeized)
 			.setColor('#E2F0CB');
 
 		const gunsSeizedEmbed = new EmbedBuilder()
-			.setTitle('Amount of Guns seized:')
+			.setTitle('Guns seized:')
 			.setDescription(countGunsSeized)
 			.setColor('#B5EAD7');
 
 		const drugsSeizedEmbed = new EmbedBuilder()
-			.setTitle('Amount of Drugs seized:')
+			.setTitle('Drugs seized:')
 			.setDescription(countDrugsSeized)
 			.setColor('#C7CEEA');
 
