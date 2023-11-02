@@ -1,4 +1,5 @@
 require('discord.js');
+const moment = require('moment');
 const dbCmds = require('./dbCmds.js');
 const postEmbed = require('./postEmbed.js');
 const editEmbed = require('./editEmbed.js');

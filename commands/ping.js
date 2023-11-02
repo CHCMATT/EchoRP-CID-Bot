@@ -1,3 +1,4 @@
+const moment = require('moment');
 module.exports = {
 	name: 'ping',
 	description: 'Replies with Pong!',

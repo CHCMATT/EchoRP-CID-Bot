@@ -1,3 +1,4 @@
+const moment = require('moment');
 const { PermissionsBitField } = require('discord.js');
 
 module.exports = {
