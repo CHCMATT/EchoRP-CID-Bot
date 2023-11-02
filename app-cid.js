@@ -1,12 +1,13 @@
 require("dotenv/config");
 const fs = require('fs');
+const moment = require('moment');
 const mongoose = require("mongoose");
 var { google } = require('googleapis');
 const startup = require('./startup.js');
 const interact = require('./dsInteractions.js');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers], partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers, GatewayIntentBits.DirectMessages], partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 
 client.commands = new Collection();
 client.buttons = new Collection();
