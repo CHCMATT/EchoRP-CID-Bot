@@ -17,14 +17,14 @@ module.exports.editEmbed = async (client) => {
 		let countGunsSeized = await dbCmds.readValue("countGunsSeized");
 		let countDrugsSeized = await dbCmds.readValue("countDrugsSeized");
 
+		// Color Palette: https://www.schemecolor.com/rainbow-pastels-color-scheme.php
+
 		countSearchWarrants = countSearchWarrants.toString();
 		countSubpoenas = countSubpoenas.toString();
 		countCallsAttended = countCallsAttended.toString();
 		countMoneySeized = countMoneySeized.toString();
 		countGunsSeized = countGunsSeized.toString();
 		countDrugsSeized = countDrugsSeized.toString();
-
-		// Color Palette: https://www.schemecolor.com/rainbow-pastels-color-scheme.php
 
 		const searchWarrantsEmbed = new EmbedBuilder()
 			.setTitle('Search Warrants served:')
