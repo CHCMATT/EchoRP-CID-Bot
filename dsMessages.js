@@ -1,21 +1,13 @@
 const moment = require('moment');
-const dsBtn = require('./dsBtn');
-const dsModal = require('./dsModal');
 
 module.exports = (client) => {
-	client.on('interactionCreate', async interaction => {
+	client.on('messageCreate', async message => {
 		try {
-			if (interaction.isCommand()) {
-				await client.commands[interaction.commandName].execute(interaction);
-			}
-			else if (interaction.isButton()) {
-				await dsBtn.btnPressed(interaction);
-			}
-			else if (interaction.isModalSubmit()) {
-				await dsModal.modalSubmit(interaction);
-			}
-			else {
-				return;
+			if (message.guild == null && message.author.id !== '1078068488716955748') {
+				await message.channel.sendTyping();
+				await message.author.send({ content: `Hi there! I am not able to you via DM, if you have a request, please DM <@177088916250296320> directly.` });
+				console.log(message.client.channels.cache.get('177088916250296320'));
+				//await message.client.channels.cache.get('').send(`test`);
 			}
 		} catch (error) {
 			if (process.env.BOT_NAME == 'test') {

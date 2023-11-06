@@ -59,7 +59,7 @@ module.exports = {
 				await editEmbed.editEmbed(interaction.client);
 				await interaction.reply({ content: `Successfully subtracted \`1\` from the \`${fixedName}\` counter - the new total is \`${newValue}\`.`, ephemeral: true });
 
-				await interaction.client.channels.cache.get(process.env.AUDIT_CHANNEL_ID).send(`:warning: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) subtracted \`1\` from the \`${fixedName}\` counter for a new total of \`${newValue}\`.`)
+				await interaction.client.channels.cache.get(process.env.AUDIT_CHANNEL_ID).send(`:warning: \`${interaction.member.nickname}\` (||\`${interaction.member.user.username}\`||) subtracted \`1\` from the \`${fixedName}\` counter for a new total of \`${newValue}\`.`)
 			}
 			else {
 				await interaction.reply({ content: `:x: You must have the \`CID\` role or the \`Administrator\` permission to use this function.`, ephemeral: true });

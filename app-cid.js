@@ -1,13 +1,13 @@
 require("dotenv/config");
 const fs = require('fs');
-const moment = require('moment');
 const mongoose = require("mongoose");
 var { google } = require('googleapis');
 const startup = require('./startup.js');
 const interact = require('./dsInteractions.js');
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const message = require('./dsMessages.js');
+const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers, GatewayIntentBits.DirectMessages], partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers, GatewayIntentBits.DirectMessages], partials: [Partials.Channel, Partials.Message, Partials.Reaction] });
 
 client.commands = new Collection();
 client.buttons = new Collection();
@@ -63,6 +63,7 @@ client.once('ready', async () => {
 	}
 
 	interact(client); // Fire whenever an interaction is created
+	message(client); // Fire whenever a message is created
 	console.log(`[${fileName}] Connected to ${client.guilds.cache.size} guild(s).`); // Lists the number of guilds that the client is connected to
 	const keys = client.guilds.cache.keys(); // Gets the keys for the map object from the guilds object
 	for (const entry of keys) { // For each guild

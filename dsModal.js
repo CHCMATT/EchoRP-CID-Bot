@@ -64,7 +64,7 @@ module.exports.modalSubmit = async (interaction) => {
 						ephemeral: true
 					});
 					await interaction.client.channels.cache.get(process.env.AUDIT_CHANNEL_ID).send({
-						content: `:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`${moneySeizedFormatted}\` to the \`Money Seized\` counter for a new total of \`${newTotal}\`. The associated Report # is \`${moneyCaseNum}\` with Case File \`${moneyCaseFileLink}\`.`
+						content: `:white_check_mark: \`${interaction.member.nickname}\` (||\`${interaction.member.user.username}\`||) added \`${moneySeizedFormatted}\` to the \`Money Seized\` counter for a new total of \`${newTotal}\`. The associated Report # is \`${moneyCaseNum}\` with Case File \`${moneyCaseFileLink}\`.`
 					});
 				}
 				break;
@@ -103,7 +103,7 @@ module.exports.modalSubmit = async (interaction) => {
 						ephemeral: true
 					});
 					await interaction.client.channels.cache.get(process.env.AUDIT_CHANNEL_ID).send({
-						content: `:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`${gunsSeized}\` to the \`Guns Seized\` counter for a new total of \`${newTotal}\`. The guns were seized from \`${gunsLocation}\`.`
+						content: `:white_check_mark: \`${interaction.member.nickname}\` (||\`${interaction.member.user.username}\`||) added \`${gunsSeized}\` to the \`Guns Seized\` counter for a new total of \`${newTotal}\`. The guns were seized from \`${gunsLocation}\`.`
 					})
 				}
 				break;
@@ -130,7 +130,7 @@ module.exports.modalSubmit = async (interaction) => {
 						ephemeral: true
 					});
 					await interaction.client.channels.cache.get(process.env.AUDIT_CHANNEL_ID).send({
-						content: `:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`${drugsSeized}\` to the \`Drugs Seized\` counter for a new total of \`${newTotal}\`.`
+						content: `:white_check_mark: \`${interaction.member.nickname}\` (||\`${interaction.member.user.username}\`||) added \`${drugsSeized}\` to the \`Drugs Seized\` counter for a new total of \`${newTotal}\`.`
 					})
 				}
 				break;
@@ -172,7 +172,7 @@ module.exports.modalSubmit = async (interaction) => {
 				const newTotal = await dbCmds.readValue("countCallsAttended");
 				await editEmbed.editEmbed(interaction.client);
 
-				let msgContent = `:white_check_mark: \`${interaction.member.nickname}\` (\`${interaction.member.user.username}\`) added \`1\` to the \`Calls Attended\` counter for a new total of \`${newTotal}\`.`
+				let msgContent = `:white_check_mark: \`${interaction.member.nickname}\` (||\`${interaction.member.user.username}\`||) added \`1\` to the \`Calls Attended\` counter for a new total of \`${newTotal}\`.`
 				if (callsAttendedReportNum && callsAttendedReportNum.toLowerCase() != 'n/a' && callsAttendedReportNum.toLowerCase() != 'na') { msgContent = msgContent + ` The associated Report # is \`${callsAttendedReportNum}\`.` }
 				if (callsAttendedNotes) { msgContent = msgContent + ` The following notes were included: \`${callsAttendedNotes}\`.` }
 				if (callsAttendedAddtlOffc) { msgContent = msgContent + ` The listed additional CID members were: \`${callsAttendedAddtlOffc}\`.` }
