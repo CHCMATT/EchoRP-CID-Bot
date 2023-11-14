@@ -19,5 +19,5 @@ module.exports.startUp = async (client) => {
 	const now = Math.floor(new Date().getTime() / 1000.0);
 	const time = `<t:${now}:t>`;
 
-	await client.channels.cache.get(process.env.LOG_CHANNEL_ID).send(`:bangbang: The ${process.env.BOT_NAME} bot started up at ${time}.`)
+	await client.channels.cache.get(process.env.BOT_LOG_CHANNEL_ID).send(`:bangbang: The ${process.env.BOT_NAME} bot started up at ${time}.`)
 };
