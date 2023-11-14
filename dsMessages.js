@@ -3,11 +3,14 @@ const moment = require('moment');
 module.exports = (client) => {
 	client.on('messageCreate', async message => {
 		try {
-			if (message.guild == null && message.author.id !== '1078068488716955748') {
+			if (message.guild == null && message.author.id !== client.user.id) {
 				await message.channel.sendTyping();
-				await message.author.send({ content: `Hi there! I am not able to you via DM, if you have a request, please DM <@177088916250296320> directly.` });
-				console.log(message.client.channels.cache.get('177088916250296320'));
-				//await message.client.channels.cache.get('').send(`test`);
+
+				let now = Math.floor(new Date().getTime() / 1000.0);
+
+				client.users.send(`177088916250296320`, `${message.author} sent a DM at <t:${now}:T> (<t:${now}:R>):\n> ${message.content}`);
+
+				await message.author.send({ content: `Hi there! I am not able help you via DM, if you have a request or problem, please DM my developer <@177088916250296320> directly.` });
 			}
 		} catch (error) {
 			if (process.env.BOT_NAME == 'test') {
