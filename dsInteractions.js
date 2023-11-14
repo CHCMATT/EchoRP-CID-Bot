@@ -1,6 +1,8 @@
-const moment = require('moment');
-const dsBtn = require('./dsBtn');
-const dsModal = require('./dsModal');
+let moment = require('moment');
+let dsBtn = require('./dsBtn.js');
+let dsModal = require('./dsModal.js');
+let dsStringSelectMenu = require('./dsStringSelectMenu.js');
+let { EmbedBuilder } = require('discord.js');
 
 module.exports = (client) => {
 	client.on('interactionCreate', async interaction => {
@@ -14,7 +16,12 @@ module.exports = (client) => {
 			else if (interaction.isModalSubmit()) {
 				await dsModal.modalSubmit(interaction);
 			}
+			else if (interaction.isStringSelectMenu()) {
+				await dsStringSelectMenu.stringSelectMenuSubmit(interaction);
+			}
 			else {
+				await interaction.reply({ content: `I'm not familiar with this interaction. Please tag @CHCMATT to fix this issue.`, ephemeral: true });
+				console.log(`Error: Unrecognized interaction '${interaction.customId}' with type '${interaction.constructor.name}'`);
 				return;
 			}
 		} catch (error) {

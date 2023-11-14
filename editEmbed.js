@@ -10,51 +10,49 @@ const formatter = new Intl.NumberFormat('en-US', {
 
 module.exports.editEmbed = async (client) => {
 	try {
+		let now = Math.floor(new Date().getTime() / 1000.0);
+		let today = `<t:${now}:d>`;
+
 		let countSearchWarrants = await dbCmds.readValue("countSearchWarrants");
 		let countSubpoenas = await dbCmds.readValue("countSubpoenas");
 		let countCallsAttended = await dbCmds.readValue("countCallsAttended");
-		let countMoneySeized = formatter.format(await dbCmds.readValue("countMoneySeized"));
+		let countMoneySeized = await dbCmds.readValue("countMoneySeized");
 		let countGunsSeized = await dbCmds.readValue("countGunsSeized");
 		let countDrugsSeized = await dbCmds.readValue("countDrugsSeized");
 
 		// Color Palette: https://www.schemecolor.com/rainbow-pastels-color-scheme.php
 
-		countSearchWarrants = countSearchWarrants.toString();
-		countSubpoenas = countSubpoenas.toString();
-		countCallsAttended = countCallsAttended.toString();
-		countMoneySeized = countMoneySeized.toString();
-		countGunsSeized = countGunsSeized.toString();
-		countDrugsSeized = countDrugsSeized.toString();
+		let mainFields = [];
 
-		const searchWarrantsEmbed = new EmbedBuilder()
-			.setTitle('Search Warrants served:')
-			.setDescription(countSearchWarrants)
-			.setColor('#FF9AA2');
+		if (countSearchWarrants >= 1) {
+			countSearchWarrants = countSearchWarrants.toString();
+			mainFields.push({ name: `Search Warrants served: `, value: `${countSearchWarrants}` });
+		}
+		if (countSubpoenas >= 1) {
+			countSubpoenas = countSubpoenas.toString();
+			mainFields.push({ name: `Subpoenas served:`, value: `${countSubpoenas}` });
+		}
+		if (countCallsAttended >= 1) {
+			countCallsAttended = countCallsAttended.toString();
+			mainFields.push({ name: `Calls attended:`, value: `${countCallsAttended}` });
+		}
+		if (countMoneySeized >= 1) {
+			countMoneySeized = formatter.format(countMoneySeized);
+			mainFields.push({ name: `Money seized:`, value: `${countMoneySeized}` });
+		}
+		if (countGunsSeized >= 1) {
+			countGunsSeized = countGunsSeized.toString();
+			mainFields.push({ name: `Guns seized:`, value: `${countGunsSeized}` });
+		}
+		if (countDrugsSeized >= 1) {
+			countDrugsSeized = countDrugsSeized.toString();
+			mainFields.push({ name: `Drugs seized:`, value: `${countDrugsSeized}` });
+		}
 
-		const subpoenasEmbed = new EmbedBuilder()
-			.setTitle('Subpoenas served:')
-			.setDescription(countSubpoenas)
-			.setColor('#FFB7B2');
-
-		const callsAttendedEmbed = new EmbedBuilder()
-			.setTitle('Calls attended:')
-			.setDescription(countCallsAttended)
-			.setColor('#FFDAC1');
-
-		const moneySeizedEmbed = new EmbedBuilder()
-			.setTitle('Money seized:')
-			.setDescription(countMoneySeized)
-			.setColor('#E2F0CB');
-
-		const gunsSeizedEmbed = new EmbedBuilder()
-			.setTitle('Guns seized:')
-			.setDescription(countGunsSeized)
-			.setColor('#B5EAD7');
-
-		const drugsSeizedEmbed = new EmbedBuilder()
-			.setTitle('Drugs seized:')
-			.setDescription(countDrugsSeized)
-			.setColor('#C7CEEA');
+		let mainEmbed = new EmbedBuilder()
+			.setTitle(`CID Statistics as of ${today}: `)
+			.addFields(mainFields)
+			.setColor('FFB7B2');
 
 		const currEmbed = await dbCmds.readMsgId("embedMsg");
 
@@ -63,7 +61,7 @@ module.exports.editEmbed = async (client) => {
 
 		const btnRows = addBtnRows();
 
-		currMsg.edit({ embeds: [searchWarrantsEmbed, subpoenasEmbed, callsAttendedEmbed, moneySeizedEmbed, gunsSeizedEmbed, drugsSeizedEmbed], components: btnRows });
+		currMsg.edit({ embeds: [mainEmbed], components: btnRows });
 	} catch (error) {
 		if (process.env.BOT_NAME == 'test') {
 			console.error(error);
@@ -90,36 +88,10 @@ module.exports.editEmbed = async (client) => {
 function addBtnRows() {
 	const row1 = new ActionRowBuilder().addComponents(
 		new ButtonBuilder()
-			.setCustomId('addSW')
-			.setLabel('Add a Search Warrant')
-			.setStyle(ButtonStyle.Success),
-
-		new ButtonBuilder()
-			.setCustomId('addSubpoenas')
-			.setLabel('Add a Subpoena')
-			.setStyle(ButtonStyle.Success),
-
-		new ButtonBuilder()
-			.setCustomId('addCall')
-			.setLabel('Add a Call Attended')
+			.setCustomId('addToStatistics')
+			.setLabel('Add to Statistics')
 			.setStyle(ButtonStyle.Success)
 	);
-	const row2 = new ActionRowBuilder().addComponents(
-		new ButtonBuilder()
-			.setCustomId('addMoney')
-			.setLabel('Add Money Seized')
-			.setStyle(ButtonStyle.Success),
-
-		new ButtonBuilder()
-			.setCustomId('addGuns')
-			.setLabel('Add Guns Seized')
-			.setStyle(ButtonStyle.Success),
-
-		new ButtonBuilder()
-			.setCustomId('addDrugs')
-			.setLabel('Add Drugs Seized')
-			.setStyle(ButtonStyle.Success)
-	);
-	const rows = [row1, row2];
+	const rows = [row1];
 	return rows;
 }
