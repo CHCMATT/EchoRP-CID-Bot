@@ -1,13 +1,13 @@
-require("dotenv/config");
 let fs = require('fs');
+require("dotenv/config");
 let mongoose = require("mongoose");
-var { google } = require('googleapis');
 let startup = require('./startup.js');
-let interact = require('./dsInteractions.js');
+let { google } = require('googleapis');
 let message = require('./dsMessages.js');
-let { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
+let interact = require('./dsInteractions.js');
+let { Client, Collection, GatewayIntentBits, time } = require('discord.js');
 
-let client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers, GatewayIntentBits.DirectMessages], partials: [Partials.Channel, Partials.Message, Partials.Reaction] });
+let client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers], partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 
 client.commands = new Collection();
 client.buttons = new Collection();
@@ -24,14 +24,13 @@ client.once('ready', async () => {
 	console.log(`[${fileName}] Connected to Mongo!`);
 
 	// Google Sheets Authorization Stuff
-	var auth = new google.auth.GoogleAuth({
+	let auth = new google.auth.GoogleAuth({
 		keyFile: "./sheets-creds.json",
 		scopes: "https://www.googleapis.com/auth/spreadsheets"
 	})
-	var sheetClient = auth.getClient();
-	var googleSheets = google.sheets({ version: "v4", auth: sheetClient });
+	let sheetClient = auth.getClient();
+	let googleSheets = google.sheets({ version: "v4", auth: sheetClient });
 
-	// Stuff that will be very useful in our project
 	client.auth = auth;
 	client.sheetId = process.env.SPREADSHEET_ID;
 	client.googleSheets = googleSheets.spreadsheets;
@@ -63,7 +62,6 @@ client.once('ready', async () => {
 	}
 
 	interact(client); // Fire whenever an interaction is created
-	message(client); // Fire whenever a message is created
 	console.log(`[${fileName}] Connected to ${client.guilds.cache.size} guild(s).`); // Lists the number of guilds that the client is connected to
 	let keys = client.guilds.cache.keys(); // Gets the keys for the map object from the guilds object
 	for (let entry of keys) { // For each guild
@@ -71,5 +69,10 @@ client.once('ready', async () => {
 	}
 	console.log(`[${fileName}] Client is ready.`);
 
-	await startup.startUp(client);;
+	await startup.startUp(client);
+
+	let today = new Date();
+	let nowTime = time(today, 't');
+
+	await client.channels.cache.get(process.env.BOT_LOG_CHANNEL_ID).send(`:bangbang: The ${process.env.BOT_NAME} bot started up at ${nowTime}.`)
 });
