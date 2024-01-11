@@ -11,7 +11,7 @@ module.exports.startUp = async (client) => {
 		await channel.messages.fetch(oldEmbed);
 		editEmbed.editEmbed(client);
 	}
-	catch (error) {
+	catch {
 		postEmbed.postEmbed(client);
 	}
 
