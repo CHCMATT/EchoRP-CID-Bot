@@ -1,16 +1,15 @@
-const moment = require('moment');
-const startup = require('../startup.js');
-const { PermissionsBitField } = require('discord.js');
+let moment = require('moment');
+let startup = require('../startup.js');
+let { PermissionsBitField, EmbedBuilder } = require('discord.js');
 
 module.exports = {
 	name: 'startup',
 	description: 'Posts the embed to the specified channel',
-
 	async execute(interaction) {
 		try {
-			if (interaction.member.permissions.has(PermissionsBitField.Flags.Administrator) || interaction.member.id == '177088916250296320') {
-				await startup.startUp(interaction.client);
-				await interaction.reply({ content: `Successfully posted the embed to the <#${process.env.EMBED_CHANNEL_ID}> channel.`, ephemeral: true });
+			if (interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
+				const postOrEdit = await startup.startUp(interaction.client);
+				await interaction.reply({ content: `Successfully ${postOrEdit} the embed to the <#${process.env.EMBED_CHANNEL_ID}> channel.`, ephemeral: true });
 			}
 			else {
 				await interaction.reply({ content: `:x: You must have the \`Administrator\` permission to use this function.`, ephemeral: true });
@@ -48,6 +47,7 @@ module.exports = {
 					.addFields(
 						{ name: `Created by:`, value: `${interaction.member.nickname} (<@${interaction.user.id}>)`, inline: true },
 						{ name: `Error handled?`, value: `${errHandled}`, inline: true },
+						{ name: `Server name:`, value: `${interaction.member.guild.name}`, inline: true },
 					)
 					.setColor('B80600')
 					.setFooter({ text: `${errTime}` })];
@@ -55,5 +55,5 @@ module.exports = {
 				await interaction.client.channels.cache.get(process.env.ERROR_LOG_CHANNEL_ID).send({ embeds: errorEmbed });
 			}
 		}
-	},
+	}
 };
